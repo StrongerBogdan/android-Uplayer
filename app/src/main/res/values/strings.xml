@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Uplayer</string>
+    <string name="music">Музика</string>
+    <string name="Files">Файли</string>
+    <string name="search">Пошук</string>
+    <string name="previous">previous</string>
+    <string name="play_pause">play/pause</string>
+    <string name="next">next</string>
+    <string name="preview">TODO</string>
 </resources>

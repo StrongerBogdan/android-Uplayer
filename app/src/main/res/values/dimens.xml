@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_header_height">83dp</dimen>
+    <dimen name="min_margin">1dp</dimen>
+    <dimen name="searchbar_margin_top">20dp</dimen>
+    <dimen name="searchbar_margin_bottom">17dp</dimen>
+    <dimen name="searchbar_margin_end">33dp</dimen>
+    <dimen name="searchbar_margin_start">33dp</dimen>
+    <dimen name="caption_text_size">24sp</dimen>
+    <dimen name="caption_margin_start">28dp</dimen>
+    <dimen name="caption_margin_top">9dp</dimen>
+    <dimen name="recycler_margin_top">6dp</dimen>
+    <dimen name="recycler_margin_start">20dp</dimen>
+    <dimen name="recycler_charts_width">200dp</dimen>
+    <dimen name="recycler_charts_height">312dp</dimen>
+    <dimen name="charts_image_margin_sides">7dp</dimen>
+    <dimen name="charts_image_margin_top">16dp</dimen>
+    <dimen name="charts_image_width">190dp</dimen>
+    <dimen name="charts_image_height">200dp</dimen>
+    <dimen name="charts_text_size_caption">16sp</dimen>
+    <dimen name="author_text_margin_top">5dp</dimen>
+    <dimen name="author_text_size">10sp</dimen>
+    <dimen name="recycler_charts_margin_top">12dp</dimen>
+    <dimen name="second_charts_video_name_text_size">14sp</dimen>
+    <dimen name="second_charts_recycler_margin_side">22dp</dimen>
+    <dimen name="second_charts_image_height">80dp</dimen>
+    <dimen name="recycler_second_charts_width">100dp</dimen>
+    <dimen name="recycler_second_charts_height">140dp</dimen>
+    <dimen name="recycler_second_charts_margin_side">8dp</dimen>
+    <dimen name="play_now_cover_width">243dp</dimen>
+    <dimen name="play_now_cover_height">66dp</dimen>
+    <dimen name="play_now_height">70dp</dimen>
+    <dimen name="play_now_cover_image_size">66dp</dimen>
+    <dimen name="seek_bar_thickness">4dp</dimen>
+    <dimen name="seek_bar_thumb_size">16dp</dimen>
+    <dimen name="bottom_nav_height">52dp</dimen>
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_gray"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:id="@+id/header_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_header_height"
+        android:layout_marginStart="@dimen/min_margin"
+        android:layout_marginTop="@dimen/min_margin"
+        android:layout_marginEnd="@dimen/min_margin"
+        android:background="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/charts_text_view"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/fragment_header" />
+    </FrameLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/charts_text_view"
+        style="@style/Text.CaptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/caption_margin_start"
+        android:layout_marginTop="@dimen/caption_margin_top"
+        android:textSize="@dimen/caption_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_frame_layout"
+        app:layout_constraintBottom_toTopOf="@id/recycler_charts"
+        tools:text="Топ-10 Українські пісні" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_charts"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/recycler_charts_height"
+        android:layout_marginStart="@dimen/recycler_margin_start"
+        android:layout_marginTop="@dimen/recycler_charts_margin_top"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/charts_text_view"
+        app:layout_constraintBottom_toTopOf="@id/second_charts_text_view"
+        tools:listitem="@layout/recycler_item_charts" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/second_charts_text_view"
+        style="@style/Text.CaptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/caption_margin_start"
+        android:textSize="@dimen/caption_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recycler_second_charts"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_charts"
+        tools:text="Топ-100 Українські пісні" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_second_charts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/second_charts_recycler_margin_side"
+        android:layout_marginEnd="@dimen/second_charts_recycler_margin_side"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second_charts_text_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/recycler_item_second_charts" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

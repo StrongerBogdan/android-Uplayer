@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui
+package com.bogdanmurzin.uplayer.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
