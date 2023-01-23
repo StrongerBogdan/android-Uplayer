@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bogdanmurzin.uplayer.databinding.FragmentMusicBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MusicFragment : Fragment() {
 
     lateinit var binding: FragmentMusicBinding

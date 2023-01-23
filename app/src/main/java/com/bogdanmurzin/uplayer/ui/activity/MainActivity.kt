@@ -3,7 +3,9 @@ package com.bogdanmurzin.uplayer.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
