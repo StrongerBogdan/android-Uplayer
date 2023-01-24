@@ -11,12 +11,13 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/second_chart_image_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/second_charts_image_height"
         android:layout_marginTop="@dimen/charts_image_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/second_chart_video_name"
         app:shapeAppearanceOverlay="@style/RoundedImageView.TopCorners"
         tools:src="@color/purple_200" />
 

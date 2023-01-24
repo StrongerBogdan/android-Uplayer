@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_frame_layout"
         app:layout_constraintBottom_toTopOf="@id/recycler_charts"
-        tools:text="Топ-10 Українські пісні" />
+        android:text="@string/top_10_ukr_music" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_charts"
@@ -58,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/recycler_second_charts"
         app:layout_constraintTop_toBottomOf="@+id/recycler_charts"
-        tools:text="Топ-100 Українські пісні" />
+        android:text="@string/top_100_ukr_music" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_second_charts"

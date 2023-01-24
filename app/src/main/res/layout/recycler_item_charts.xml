@@ -33,6 +33,7 @@
         tools:text="Monsters Go Bump" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/chart_author_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Text.SubtitleText"
