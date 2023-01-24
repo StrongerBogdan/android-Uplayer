@@ -18,7 +18,11 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.21' apply false
 }
 
+def props = new Properties()
+file("youtube_config.properties").withInputStream { props.load(it) }
+
 ext {
+    API_KEY = props.getProperty("api_key")
     /* sdk versions */
     compile_sdk_version = 33
     min_sdk_version = 22
@@ -31,4 +35,6 @@ ext {
     coroutines_version = '1.6.4'
     lifeData_version = '2.5.1'
     glide_version = '4.13.2'
+    retrofit_version = '2.9.0'
+    okhttp_version = '4.2.1'
 }

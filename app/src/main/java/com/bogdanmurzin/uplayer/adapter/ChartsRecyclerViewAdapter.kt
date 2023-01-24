@@ -87,8 +87,7 @@ class ChartsRecyclerViewAdapter(
             oldItem: VideoItem,
             newItem: VideoItem
         ): Boolean {
-            return oldItem.id == newItem.id &&
-                    oldItem.title == newItem.title &&
+            return oldItem.title == newItem.title &&
                     oldItem.author == newItem.author &&
                     oldItem.imageUrl == newItem.imageUrl &&
                     oldItem.videoId == newItem.videoId
