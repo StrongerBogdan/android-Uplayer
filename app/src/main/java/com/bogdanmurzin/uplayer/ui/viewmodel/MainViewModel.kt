@@ -22,6 +22,10 @@ class MainViewModel @Inject constructor(
     private val _secondChartList: MutableLiveData<List<VideoItem>> = MutableLiveData()
     var secondChartList: LiveData<List<VideoItem>> = _secondChartList
 
+    // Provide whole list of videoIds and current (clicked) videoId
+    private val _videoIdsList: MutableLiveData<Pair<List<String>, String>> = MutableLiveData()
+    var videoIdsList: LiveData<Pair<List<String>, String>> = _videoIdsList
+
     fun updateVideoList() {
         viewModelScope.launch(coroutineDispatcherProvider.io()) {
             getChartList(CHARTS_VIDEO_COUNT).collect { _chartList.postValue(it) }
@@ -32,6 +36,9 @@ class MainViewModel @Inject constructor(
     private suspend fun getChartList(maxResults: Int): Flow<List<VideoItem>> =
         getVideosUseCase.invoke(maxResults)
 
+    fun getVideoIds(videoList: List<VideoItem>, clickedVideoItem: VideoItem) {
+        _videoIdsList.postValue(videoList.map { it.videoId } to clickedVideoItem.videoId)
+    }
 
     @Suppress("UNCHECKED_CAST")
     class Factory(

@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +22,7 @@ class MusicFragment : Fragment() {
     private lateinit var binding: FragmentMusicBinding
     private lateinit var recyclerAdapter1: ChartsRecyclerViewAdapter
     private lateinit var recyclerAdapter2: ChartsRecyclerViewAdapter
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +53,7 @@ class MusicFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerAdapter1 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.FIRST_CHART_VIEW_LAYOUT) {
-                // start video in viewModel
+                viewModel.getVideoIds(recyclerAdapter1.currentList, it)
                 Log.i(Constants.TAG, "Video Start")
             }
         val recyclerView = binding.recyclerCharts
@@ -66,7 +66,7 @@ class MusicFragment : Fragment() {
             GridLayoutManager(requireContext(), Constants.SPAN_COUNT)
         recyclerAdapter2 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.SECOND_CHART_VIEW_LAYOUT) {
-                // start video in viewModel
+                viewModel.getVideoIds(recyclerAdapter2.currentList, it)
                 Log.i(Constants.TAG, "Video Start ${it.videoId}")
             }
         val recyclerView = binding.recyclerSecondCharts
