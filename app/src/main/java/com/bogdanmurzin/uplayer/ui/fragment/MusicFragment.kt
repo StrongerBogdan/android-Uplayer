@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.adapter.ChartsRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.FragmentMusicBinding
@@ -51,7 +50,7 @@ class MusicFragment : Fragment() {
 
     private fun setupFirstRecycler() {
         val layoutManager: RecyclerView.LayoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, true)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerAdapter1 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.FIRST_CHART_VIEW_LAYOUT) {
                 // start video in viewModel
