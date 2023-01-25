@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/play_now_cover_width"
+    android:layout_height="@dimen/play_now_cover_height"
+    tools:background="@color/dark_gray">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/play_now_cover_width"
-        android:layout_height="@dimen/play_now_cover_height"
-        tools:background="@color/dark_gray">
+    <!-- Video Preview Image -->
+    <ImageView
+        android:id="@+id/video_preview"
+        android:layout_width="@dimen/play_now_cover_image_size"
+        android:layout_height="@dimen/play_now_cover_image_size"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/preview"
+        android:scaleType="centerCrop"
+        android:src="@color/purple_200"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Video Preview Image -->
-        <ImageView
-            android:id="@+id/video_preview"
-            android:layout_width="@dimen/play_now_cover_image_size"
-            android:layout_height="@dimen/play_now_cover_image_size"
-            android:layout_gravity="center_vertical"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@color/purple_200"
-            android:contentDescription="@string/preview" />
+    <!-- Video Name -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/video_name"
+        style="@style/Text.CaptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:layout_marginStart="@dimen/cover_video_text_margin_start"
+        android:layout_marginTop="@dimen/cover_video_text_margin_top"
+        android:textSize="@dimen/cover_video_text_size"
+        app:layout_constraintStart_toEndOf="@id/video_preview"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Chaff and Dust" />
 
-        <!-- Video Name -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/video_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="11dp"
-            app:layout_constraintStart_toEndOf="@id/video_preview"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/Text.CaptionText"
-            tools:text="Chaff and Dust" />
+    <!-- Author Name -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/author_name"
+        style="@style/Text.SubtitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
 
-        <!-- Author Name -->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/author_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:layout_marginBottom="14dp"
-            app:layout_constraintStart_toStartOf="@id/video_name"
-            app:layout_constraintTop_toBottomOf="@id/video_name"
-            style="@style/Text.SubtitleText"
-            android:textStyle="bold"
-            tools:text="HYONNA" />
+        android:layout_marginBottom="@dimen/cover_author_margin_bottom"
+        android:textSize="@dimen/cover_author_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/video_name"
+        app:layout_constraintTop_toBottomOf="@id/video_name"
+        tools:text="HYONNA" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</merge>
+</androidx.constraintlayout.widget.ConstraintLayout>

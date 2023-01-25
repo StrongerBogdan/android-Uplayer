@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bogdanmurzin.domain.entities.VideoItem
+import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.NowPlayingBinding
 import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
 import com.bogdanmurzin.uplayer.util.CustomYouTubePlayerListener
 import com.bogdanmurzin.uplayer.util.PlayList
+import com.bumptech.glide.Glide
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
@@ -35,8 +37,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initYouTubePlayerView()
 
-        viewModel.videoList.observe(this) {
-            loadVideo(it.first, it.second)
+        viewModel.videoList.observe(this) { (videoList, currentVideo) ->
+            loadVideoCover(currentVideo)
+            loadVideo(videoList, currentVideo)
+        }
+    }
+
+    // Loads title, channelName and video image
+    private fun loadVideoCover(currentVideo: VideoItem) {
+        with(binding.nowPlaying.nowPlayingCover) {
+            videoName.text = currentVideo.title
+            authorName.text = currentVideo.author
+            Glide.with(binding.root.context)
+                .load(currentVideo.imageUrl)
+                .override(Constants.CHARTS_IMG_WIDTH, Constants.CHARTS_IMG_HEIGHT)
+                .centerCrop()
+                .into(videoPreview)
         }
     }
 

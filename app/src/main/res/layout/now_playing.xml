@@ -41,7 +41,7 @@
         android:orientation="horizontal">
 
         <!-- the album's cover + actions -->
-        <include layout="@layout/now_playing_cover" />
+        <include android:id="@+id/now_playing_cover" layout="@layout/now_playing_cover" />
 
         <!-- Previous Button -->
         <ImageButton
