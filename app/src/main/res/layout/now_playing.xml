@@ -1,61 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:background="@color/dark_gray">
+
+    <!-- Seekbar -->
+    <SeekBar
+        android:id="@+id/seekbar"
+        style="@style/MySeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:max="100"
+        android:splitTrack="false"
+        tools:progress="5" />
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+
+        app:videoId="S0Q4gqBUs7c"
+        app:autoPlay="true" />
+
+    <!-- Video Controls -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:background="@color/dark_gray">
+        android:orientation="horizontal">
 
-        <!-- Seekbar -->
-        <SeekBar
-            android:id="@+id/seekbar"
-            style="@style/MySeekBar"
-            android:layout_width="match_parent"
-            android:layout_height="18dp"
-            android:max="100"
-            android:splitTrack="false"
-            tools:progress="5" />
+        <!-- the album's cover + actions -->
+        <include layout="@layout/now_playing_cover" />
 
-        <!-- Video Controls -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <!-- Previous Button -->
+        <ImageButton
+            android:id="@+id/prev_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/previous"
+            android:src="@drawable/previous" />
 
-            <!-- the album's cover + actions -->
-            <include layout="@layout/now_playing_cover" />
+        <!-- Play/Pause Button -->
+        <ImageButton
+            android:id="@+id/play_pause_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/play_pause"
+            android:src="@drawable/pause_icon" />
 
-            <!-- Previous Button -->
-            <ImageButton
-                android:id="@+id/prev_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/previous"
-                android:contentDescription="@string/previous" />
-
-            <!-- Play/Pause Button -->
-            <ImageButton
-                android:id="@+id/play_pause_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/pause_icon"
-                android:contentDescription="@string/play_pause" />
-
-            <!-- Next Button -->
-            <ImageButton
-                android:id="@+id/next_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/next_icon"
-                android:contentDescription="@string/next" />
-        </LinearLayout>
+        <!-- Next Button -->
+        <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/next"
+            android:src="@drawable/next_icon" />
     </LinearLayout>
-</merge>
+</LinearLayout>

@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nav_host_fragment">
 
-        <include layout="@layout/now_playing" />
+        <include android:id="@+id/now_playing" layout="@layout/now_playing" />
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
