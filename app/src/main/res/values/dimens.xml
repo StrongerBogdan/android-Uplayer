@@ -39,4 +39,5 @@
     <dimen name="cover_video_text_margin_top">11dp</dimen>
     <dimen name="cover_author_margin_bottom">14dp</dimen>
     <dimen name="cover_author_text_size">11sp</dimen>
+    <dimen name="seek_bar_height">20dp</dimen>
 </resources>

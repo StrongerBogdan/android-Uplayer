@@ -21,7 +21,7 @@
         android:id="@+id/seekbar"
         style="@style/MySeekBar"
         android:layout_width="match_parent"
-        android:layout_height="18dp"
+        android:layout_height="@dimen/seek_bar_height"
         app:color="@color/white"
         app:fontSize="0sp"/>
 
