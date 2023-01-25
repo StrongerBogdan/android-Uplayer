@@ -23,8 +23,8 @@ class MainViewModel @Inject constructor(
     var secondChartList: LiveData<List<VideoItem>> = _secondChartList
 
     // Provide whole list of videoIds and current (clicked) videoId
-    private val _videoIdsList: MutableLiveData<Pair<List<String>, String>> = MutableLiveData()
-    var videoIdsList: LiveData<Pair<List<String>, String>> = _videoIdsList
+    private val _videoList: MutableLiveData<Pair<List<VideoItem>, VideoItem>> = MutableLiveData()
+    var videoList: LiveData<Pair<List<VideoItem>, VideoItem>> = _videoList
 
     fun updateVideoList() {
         viewModelScope.launch(coroutineDispatcherProvider.io()) {
@@ -37,7 +37,7 @@ class MainViewModel @Inject constructor(
         getVideosUseCase.invoke(maxResults)
 
     fun getVideoIds(videoList: List<VideoItem>, clickedVideoItem: VideoItem) {
-        _videoIdsList.postValue(videoList.map { it.videoId } to clickedVideoItem.videoId)
+        _videoList.postValue(videoList to clickedVideoItem)
     }
 
     @Suppress("UNCHECKED_CAST")

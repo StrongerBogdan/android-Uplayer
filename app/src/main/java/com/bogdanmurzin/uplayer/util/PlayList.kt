@@ -1,14 +1,14 @@
 package com.bogdanmurzin.uplayer.util
 
-import com.bogdanmurzin.uplayer.common.Constants.EMPTY_STRING
+import com.bogdanmurzin.domain.entities.VideoItem
 
-class PlayList(videoIds: List<String>, currentVideoId: String) {
+class PlayList(videoList: List<VideoItem>, currentVideo: VideoItem) {
 
-    private val position: Int = videoIds.indexOf(currentVideoId)
+    private val position: Int = videoList.indexOf(currentVideo)
 
-    private val iterator = videoIds.listIterator(position)
+    private val iterator = videoList.listIterator(position)
 
-    val nextVideoId = if (iterator.hasNext()) iterator.next() else EMPTY_STRING
+    val nextVideoId: VideoItem? = if (iterator.hasNext()) iterator.next() else null
 
-    val previousVideoId = if (iterator.hasPrevious()) iterator.previous() else EMPTY_STRING
+    val previousVideoId: VideoItem? = if (iterator.hasPrevious()) iterator.previous() else null
 }

@@ -3,6 +3,7 @@ package com.bogdanmurzin.uplayer.ui.activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.NowPlayingBinding
 import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
@@ -31,12 +32,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         youTubePlayerView = binding.nowPlaying.youtubePlayerView
         setContentView(binding.root)
+        initYouTubePlayerView()
 
-        viewModel.videoIdsList.observe(this) {
+        viewModel.videoList.observe(this) {
             loadVideo(it.first, it.second)
         }
-
-        initYouTubePlayerView()
     }
 
     private fun initYouTubePlayerView() {
@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 this@MainActivity.youTubePlayer = youTubePlayer
+                // Create and add custom listener
                 val customPlayerUiController =
                     CustomYouTubePlayerListener(customPlayerUi, youTubePlayer)
                 youTubePlayer.addListener(customPlayerUiController)
@@ -56,12 +57,10 @@ class MainActivity : AppCompatActivity() {
         youTubePlayerView.initialize(listener, options)
     }
 
-    private fun loadVideo(videoIdsList: List<String>, currentVideoId: String) {
-        youTubePlayer.loadOrCueVideo(
-            lifecycle,
-            PlayList(videoIdsList, currentVideoId).nextVideoId,
-            0f
-        )
+    private fun loadVideo(videoIdsList: List<VideoItem>, currentVideoId: VideoItem) {
+        PlayList(videoIdsList, currentVideoId).nextVideoId?.videoId?.let { videoId ->
+            youTubePlayer.loadOrCueVideo(lifecycle, videoId, 0f)
+        }
     }
 
     override fun onDestroy() {
