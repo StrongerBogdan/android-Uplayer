@@ -9,14 +9,21 @@
     tools:background="@color/dark_gray">
 
     <!-- Seekbar -->
-    <SeekBar
+<!--    <SeekBar-->
+<!--        android:id="@+id/seekbar"-->
+<!--        style="@style/MySeekBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="18dp"-->
+<!--        android:max="100"-->
+<!--        android:splitTrack="false"-->
+<!--        tools:progress="5" />-->
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBar
         android:id="@+id/seekbar"
         style="@style/MySeekBar"
         android:layout_width="match_parent"
         android:layout_height="18dp"
-        android:max="100"
-        android:splitTrack="false"
-        tools:progress="5" />
+        app:color="@color/white"
+        app:fontSize="0sp"/>
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"

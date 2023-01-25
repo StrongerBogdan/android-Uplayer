@@ -15,6 +15,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.You
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBarListener
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initYouTubePlayerView() {
         val customPlayerUi: NowPlayingBinding = binding.nowPlaying
+        val seekBar = binding.nowPlaying.seekbar
 
         listener = object : AbstractYouTubePlayerListener() {
 
@@ -50,6 +52,11 @@ class MainActivity : AppCompatActivity() {
                 val customPlayerUiController =
                     CustomYouTubePlayerListener(customPlayerUi, youTubePlayer)
                 youTubePlayer.addListener(customPlayerUiController)
+                // Create and add seek listener
+                seekBar.youtubePlayerSeekBarListener = object : YouTubePlayerSeekBarListener {
+                    override fun seekTo(time: Float) = youTubePlayer.seekTo(time)
+                }
+                youTubePlayer.addListener(seekBar)
             }
         }
         // disable web ui
