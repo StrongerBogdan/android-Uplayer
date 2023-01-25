@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.videoList.observe(this) { (videoList, currentVideo) ->
             loadVideoCover(currentVideo)
-            loadVideo(videoList, currentVideo)
+            createAndStartPlayList(videoList, currentVideo)
         }
     }
 
@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initYouTubePlayerView() {
         val customPlayerUi: NowPlayingBinding = binding.nowPlaying
-        val seekBar = binding.nowPlaying.seekbar
 
         listener = object : AbstractYouTubePlayerListener() {
 
@@ -69,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                     CustomYouTubePlayerListener(customPlayerUi, youTubePlayer)
                 youTubePlayer.addListener(customPlayerUiController)
                 // Create and add seek listener
+                val seekBar = binding.nowPlaying.seekbar
                 seekBar.youtubePlayerSeekBarListener = object : YouTubePlayerSeekBarListener {
                     override fun seekTo(time: Float) = youTubePlayer.seekTo(time)
                 }
@@ -80,10 +80,14 @@ class MainActivity : AppCompatActivity() {
         youTubePlayerView.initialize(listener, options)
     }
 
-    private fun loadVideo(videoIdsList: List<VideoItem>, currentVideoId: VideoItem) {
+    private fun createAndStartPlayList(videoIdsList: List<VideoItem>, currentVideoId: VideoItem) {
         PlayList(videoIdsList, currentVideoId).nextVideoId?.videoId?.let { videoId ->
-            youTubePlayer.loadOrCueVideo(lifecycle, videoId, 0f)
+            loadVideo(videoId)
         }
+    }
+
+    private fun loadVideo(videoId: String) {
+        youTubePlayer.loadOrCueVideo(lifecycle, videoId, 0f)
     }
 
     override fun onDestroy() {
