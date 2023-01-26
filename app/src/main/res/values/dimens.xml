@@ -41,4 +41,13 @@
     <dimen name="cover_author_text_size">11sp</dimen>
     <dimen name="seek_bar_height">20dp</dimen>
     <dimen name="search_edit_text_padding_vertical">10dp</dimen>
+    <dimen name="list_item_height">75dp</dimen>
+    <dimen name="recycler_list_item_image_size">47dp</dimen>
+    <dimen name="recycler_list_item_image_margin_start">14dp</dimen>
+    <dimen name="recycler_list_item_video_margin_start">10dp</dimen>
+    <dimen name="recycler_list_item_video_margin_top">22dp</dimen>
+    <dimen name="recycler_list_item_video_text_size">15sp</dimen>
+    <dimen name="recycler_list_item_author_margin_start">26dp</dimen>
+    <dimen name="recycler_list_item_author_margin_top">1dp</dimen>
+    <dimen name="recycler_list_item_author_text_size">13sp</dimen>
 </resources>

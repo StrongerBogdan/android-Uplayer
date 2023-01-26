@@ -34,14 +34,20 @@
 
     <style name="Text.CaptionText">
         <item name="android:textColor">@color/ghost_white</item>
-        <item name="fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Text.SubtitleText">
         <item name="android:textColor">@color/light_blue</item>
-        <item name="fontFamily">sans-serif</item>
     </style>
+
+    <style name="Text.ListVideoName">
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+    <style name="Text.ListAuthorName">
+        <item name="android:textColor">@color/light_gray2</item>
+    </style>
+
     <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressBackgroundTint">@color/white_transparent</item>
         <item name="android:progressTint">@color/white</item>
