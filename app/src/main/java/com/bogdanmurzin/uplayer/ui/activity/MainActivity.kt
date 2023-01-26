@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bogdanmurzin.domain.entities.VideoItem
+import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.NowPlayingBinding
@@ -78,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         // disable web ui
         val options = IFramePlayerOptions.Builder().controls(0).build()
         youTubePlayerView.initialize(listener, options)
+        youTubePlayerView.enableBackgroundPlayback(true)
     }
 
     private fun createAndStartPlayList(videoIdsList: List<VideoItem>, currentVideoId: VideoItem) {
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadVideo(videoId: String) {
         youTubePlayer.loadOrCueVideo(lifecycle, videoId, 0f)
+        binding.nowPlaying.playPauseButton.setImageResource(R.drawable.pause_icon)
     }
 
     override fun onDestroy() {

@@ -1,6 +1,7 @@
 package com.bogdanmurzin.uplayer.util
 
 import androidx.viewbinding.ViewBinding
+import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.databinding.NowPlayingBinding
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants.PlayerState
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -10,8 +11,8 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTube
 class CustomYouTubePlayerListener(
     playerUi: ViewBinding,
     private val youTubePlayer: YouTubePlayer
-) :
-    AbstractYouTubePlayerListener() {
+) : AbstractYouTubePlayerListener() {
+
     private val playerTracker: YouTubePlayerTracker = YouTubePlayerTracker()
     private val binding = (playerUi as NowPlayingBinding)
 
@@ -21,9 +22,16 @@ class CustomYouTubePlayerListener(
     }
 
     private fun initViews() {
+        // Play pause button listener
         val playPauseButton = binding.playPauseButton
         playPauseButton.setOnClickListener {
-            if (playerTracker.state == PlayerState.PLAYING) youTubePlayer.pause() else youTubePlayer.play()
+            if (playerTracker.state == PlayerState.PLAYING) {
+                youTubePlayer.pause()
+                binding.playPauseButton.setImageResource(R.drawable.play_icon)
+            } else {
+                youTubePlayer.play()
+                binding.playPauseButton.setImageResource(R.drawable.pause_icon)
+            }
         }
     }
 
@@ -31,9 +39,5 @@ class CustomYouTubePlayerListener(
         YouTubePlayerTracker()
         val playerTracker = YouTubePlayerTracker()
         youTubePlayer.addListener(playerTracker)
-        // Play pause button listener
-        binding.playPauseButton.setOnClickListener {
-            if (playerTracker.state == PlayerState.PLAYING) youTubePlayer.pause() else youTubePlayer.play()
-        }
     }
 }

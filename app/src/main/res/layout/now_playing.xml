@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/play_pause"
-            android:src="@drawable/pause_icon" />
+            android:src="@drawable/play_icon" />
 
         <!-- Next Button -->
         <ImageButton
