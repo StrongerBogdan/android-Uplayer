@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_bar_input_layout"
@@ -13,6 +14,9 @@
         android:layout_marginStart="@dimen/searchbar_margin_start"
         android:layout_marginTop="@dimen/searchbar_margin_top"
         android:layout_marginEnd="@dimen/searchbar_margin_end"
+        app:endIconDrawable="@drawable/search_icon"
+        app:endIconMode="custom"
+        app:endIconTint="@color/ghost_white"
         android:layout_marginBottom="@dimen/searchbar_margin_bottom">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -20,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/search_bar_outlined"
-            android:drawableEnd="@drawable/search_icon"
             android:inputType="text"
             android:maxLines="1"
             android:paddingTop="@dimen/search_edit_text_padding_vertical"

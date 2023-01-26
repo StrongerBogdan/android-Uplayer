@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/fragment_header" />
+        <include android:id="@+id/header_layout" layout="@layout/fragment_header" />
     </FrameLayout>
 
     <com.google.android.material.textview.MaterialTextView

@@ -1,7 +1,6 @@
 package com.bogdanmurzin.uplayer.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,15 @@ class MusicFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMusicBinding.inflate(layoutInflater)
+        binding.headerLayout.searchBarInputLayout.setEndIconOnClickListener {
+            // TODO Search
+        }
+        setupViewModel()
 
+        return binding.root
+    }
+
+    private fun setupViewModel() {
         viewModel.chartList.observe(viewLifecycleOwner) {
             recyclerAdapter1.submitList(it)
         }
@@ -37,8 +44,6 @@ class MusicFragment : Fragment() {
         viewModel.secondChartList.observe(viewLifecycleOwner) {
             recyclerAdapter2.submitList(it)
         }
-
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +59,6 @@ class MusicFragment : Fragment() {
         recyclerAdapter1 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.FIRST_CHART_VIEW_LAYOUT) {
                 viewModel.getVideoIds(recyclerAdapter1.currentList, it)
-                Log.i(Constants.TAG, "Video Start")
             }
         val recyclerView = binding.recyclerCharts
         recyclerView.adapter = recyclerAdapter1
@@ -67,7 +71,6 @@ class MusicFragment : Fragment() {
         recyclerAdapter2 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.SECOND_CHART_VIEW_LAYOUT) {
                 viewModel.getVideoIds(recyclerAdapter2.currentList, it)
-                Log.i(Constants.TAG, "Video Start ${it.videoId}")
             }
         val recyclerView = binding.recyclerSecondCharts
         recyclerView.adapter = recyclerAdapter2
