@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/search_bar_input_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_bar_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/searchbar_margin_start"
+        android:layout_marginTop="@dimen/searchbar_margin_top"
+        android:layout_marginEnd="@dimen/searchbar_margin_end"
+        android:layout_marginBottom="@dimen/searchbar_margin_bottom">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_bar_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/searchbar_margin_start"
-            android:layout_marginTop="@dimen/searchbar_margin_top"
-            android:layout_marginEnd="@dimen/searchbar_margin_end"
-            android:layout_marginBottom="@dimen/searchbar_margin_bottom">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search_bar_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/search_bar_outlined"
-                android:drawableEnd="@drawable/search_icon" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </FrameLayout>
-</merge>
+            android:background="@drawable/search_bar_outlined"
+            android:drawableEnd="@drawable/search_icon"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingTop="@dimen/search_edit_text_padding_vertical"
+            android:paddingBottom="@dimen/search_edit_text_padding_vertical"
+            android:textColor="@color/ghost_white"
+            tools:text="Search Text Test" />
+    </com.google.android.material.textfield.TextInputLayout>
+</FrameLayout>
