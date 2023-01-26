@@ -1,6 +1,8 @@
 package com.bogdanmurzin.uplayer.ui.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bogdanmurzin.uplayer.adapter.ChartsRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.common.Constants
+import com.bogdanmurzin.uplayer.common.Constants.SEARCH_DEBOUNCE
+import com.bogdanmurzin.uplayer.common.Constants.SEARCH_LENGTH_TRIGGER
 import com.bogdanmurzin.uplayer.databinding.FragmentMusicBinding
 import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
 
 @AndroidEntryPoint
 class MusicFragment : Fragment() {
@@ -28,12 +34,37 @@ class MusicFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMusicBinding.inflate(layoutInflater)
-        binding.headerLayout.searchBarInputLayout.setEndIconOnClickListener {
-            // TODO Search
-        }
+        setupSearchEditText()
         setupViewModel()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupFirstRecycler()
+        setupSecondRecycler()
+        viewModel.updateVideoList()
+    }
+
+    private fun setupSearchEditText() {
+        val searchText = binding.headerLayout.searchBarEditText
+        val query: Flow<String> = callbackFlow {
+            val textWatcher = object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrEmpty()) this@callbackFlow.trySend(s.toString()).isSuccess
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, st: Int, co: Int, af: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            }
+            searchText.addTextChangedListener(textWatcher)
+            awaitClose { searchText.removeTextChangedListener(textWatcher) }
+        }
+            .filter { text -> text.isNotEmpty() && text.length >= SEARCH_LENGTH_TRIGGER }
+            .debounce(SEARCH_DEBOUNCE)
+            .distinctUntilChanged()
+        viewModel.search(query)
     }
 
     private fun setupViewModel() {
@@ -44,13 +75,6 @@ class MusicFragment : Fragment() {
         viewModel.secondChartList.observe(viewLifecycleOwner) {
             recyclerAdapter2.submitList(it)
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupFirstRecycler()
-        setupSecondRecycler()
-        viewModel.updateVideoList()
     }
 
     private fun setupFirstRecycler() {

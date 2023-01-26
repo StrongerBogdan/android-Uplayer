@@ -23,4 +23,17 @@ class VideoRemoteDataSourceImpl @Inject constructor(
                 )
             }
         }
+
+    override suspend fun getListOfVideosWithQuery(
+        query: String,
+        maxResults: Int
+    ): Flow<List<VideoItem>> =
+        withContext(Dispatchers.IO) {
+            val response = retrofitService.getVideosWithQuery(q = query, maxResults = maxResults)
+            return@withContext flow {
+                emit(
+                    response.items.map { videoApiItem -> mapper.toVideoList(videoApiItem) }
+                )
+            }
+        }
 }

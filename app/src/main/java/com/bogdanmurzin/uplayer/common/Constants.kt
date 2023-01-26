@@ -10,6 +10,9 @@ object Constants {
     const val SECOND_CHARTS_IMG_HEIGHT = 80
     const val CHARTS_VIDEO_COUNT = 10
     const val SECOND_CHARTS_VIDEO_COUNT = 30
+    const val SEARCH_VIDEO_COUNT = 10
+    const val SEARCH_LENGTH_TRIGGER = 2
+    const val SEARCH_DEBOUNCE = 1000L
 
     // Util
     const val TAG = "DEBUG_TAGG"

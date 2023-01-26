@@ -12,4 +12,9 @@ class VideoRepositoryImpl @Inject constructor(
     override suspend fun getListOfVideos(maxResults: Int): Flow<List<VideoItem>> =
         remoteDataSource.getRemoteVideos(maxResults)
 
+    override suspend fun getListOfVideosWithQuery(
+        query: String,
+        maxResults: Int
+    ): Flow<List<VideoItem>> = remoteDataSource.getListOfVideosWithQuery(query, maxResults)
+
 }

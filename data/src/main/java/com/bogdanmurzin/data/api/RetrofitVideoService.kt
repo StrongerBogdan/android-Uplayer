@@ -15,5 +15,15 @@ interface RetrofitVideoService {
         @Query("regionCode") regionCode: String = "UA",
         @Query("videoCategoryId") videoCategoryId: Int = 10, // 10 - music videos
         @Query("key") key: String = BuildConfig.API_KEY
-    ): VideoApiResponse
+    ): VideoApiResponseCharts
+
+    @GET("search")
+    suspend fun getVideosWithQuery(
+        @Query("part") part: String = "snippet",
+        @Query("maxResults") maxResults: Int = 10,
+        @Query("q") q: String,
+        @Query("type") type: String = "video",
+        @Query("videoCategoryId") videoCategoryId: Int = 10, // 10 - music videos
+        @Query("key") key: String = BuildConfig.API_KEY
+    ): VideoApiResponseSearch
 }
