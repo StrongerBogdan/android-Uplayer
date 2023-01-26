@@ -11,7 +11,6 @@ import com.bogdanmurzin.uplayer.common.Constants.SECOND_CHARTS_VIDEO_COUNT
 import com.bogdanmurzin.uplayer.common.Constants.TAG
 import com.bogdanmurzin.uplayer.util.DefaultCoroutineDispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,11 +45,9 @@ class MainViewModel @Inject constructor(
         _videoList.postValue(videoList to clickedVideoItem)
     }
 
-    fun search(query: Flow<String>) {
+    fun search(query: String) {
         viewModelScope.launch(coroutineDispatcherProvider.io()) {
-            query.flowOn(Dispatchers.IO)
-                .onEach { loadVideos(it) }
-                .launchIn(this)
+            loadVideos(query)
         }
     }
 
