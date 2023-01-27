@@ -29,7 +29,7 @@
     <dimen name="recycler_second_charts_margin_side">8dp</dimen>
     <dimen name="play_now_cover_width">243dp</dimen>
     <dimen name="play_now_cover_height">66dp</dimen>
-    <dimen name="play_now_height">70dp</dimen>
+    <dimen name="play_now_height">85dp</dimen>
     <dimen name="play_now_cover_image_size">66dp</dimen>
     <dimen name="seek_bar_thickness">4dp</dimen>
     <dimen name="seek_bar_thumb_size">16dp</dimen>

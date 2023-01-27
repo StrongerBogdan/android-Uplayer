@@ -1,6 +1,7 @@
 package com.bogdanmurzin.uplayer.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     // Loads title, channelName and video image
     private fun loadVideoCover(currentVideo: VideoItem) {
+        binding.playNowFrame.visibility = View.VISIBLE
         with(binding.nowPlaying.nowPlayingCover) {
             videoName.text = currentVideo.title
             authorName.text = currentVideo.author
