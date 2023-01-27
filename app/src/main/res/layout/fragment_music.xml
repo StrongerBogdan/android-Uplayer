@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     android:background="@color/dark_gray">
 
-    <FrameLayout
-        android:id="@+id/header_frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_header_height"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="@id/charts_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+<!--    <FrameLayout-->
+<!--        android:id="@+id/header_frame_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/main_header_height"-->
+<!--        android:background="@color/gray"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/charts_text_view"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <include android:id="@+id/header_layout" layout="@layout/fragment_header" />
-    </FrameLayout>
+<!--        <include android:id="@+id/header_layout" layout="@layout/fragment_header" />-->
+<!--    </FrameLayout>-->
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/charts_text_view"
@@ -30,7 +30,7 @@
         android:textSize="@dimen/caption_text_size"
         app:layout_constraintBottom_toTopOf="@id/recycler_charts"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header_frame_layout" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_charts"

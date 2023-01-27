@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.common.Constants.CHARTS_IMG_HEIGHT
 import com.bogdanmurzin.uplayer.common.Constants.CHARTS_IMG_WIDTH
-import com.bogdanmurzin.uplayer.databinding.RecyclerItemChartsBinding
+import com.bogdanmurzin.uplayer.databinding.RecyclerItemListBinding
 import com.bumptech.glide.Glide
 
 class SearchListRecyclerViewAdapter(val onItemClicked: (VideoItem) -> Unit) :
@@ -19,10 +19,9 @@ class SearchListRecyclerViewAdapter(val onItemClicked: (VideoItem) -> Unit) :
         viewType: Int
     ): SearchListRecyclerViewAdapter.ViewHolder =
         ViewHolder(
-            RecyclerItemChartsBinding
+            RecyclerItemListBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -30,17 +29,17 @@ class SearchListRecyclerViewAdapter(val onItemClicked: (VideoItem) -> Unit) :
         holder.itemView.setOnClickListener { onItemClicked(item) }
     }
 
-    inner class ViewHolder(private val binding: RecyclerItemChartsBinding) :
+    inner class ViewHolder(private val binding: RecyclerItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(videoItem: VideoItem) {
-            binding.chartVideoName.text = videoItem.title
-            binding.chartAuthorName.text = videoItem.author
+            binding.videoName.text = videoItem.title
+            binding.authorName.text = videoItem.author
             Glide.with(binding.root.context)
                 .load(videoItem.imageUrl)
                 .override(CHARTS_IMG_WIDTH, CHARTS_IMG_HEIGHT)
                 .centerCrop()
-                .into(binding.chartImageView)
+                .into(binding.listImageView)
         }
     }
 

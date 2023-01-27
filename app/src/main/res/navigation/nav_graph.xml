@@ -10,4 +10,17 @@
         android:name="com.bogdanmurzin.uplayer.ui.fragment.MusicFragment"
         android:label="fragment_music"
         tools:layout="@layout/fragment_music" />
+
+    <action
+        android:id="@+id/action_global_searchResultFragment"
+        app:destination="@id/searchResultFragment" />
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.bogdanmurzin.uplayer.ui.fragment.SearchResultFragment"
+        android:label="SearchResultFragment" >
+        <argument
+            android:name="query"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

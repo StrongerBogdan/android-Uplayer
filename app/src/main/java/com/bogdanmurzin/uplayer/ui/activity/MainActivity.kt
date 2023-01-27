@@ -3,13 +3,16 @@ package com.bogdanmurzin.uplayer.ui.activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.bogdanmurzin.domain.entities.VideoItem
+import com.bogdanmurzin.uplayer.NavGraphDirections
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.NowPlayingBinding
 import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
 import com.bogdanmurzin.uplayer.util.CustomYouTubePlayerListener
+import com.bogdanmurzin.uplayer.util.Event
 import com.bogdanmurzin.uplayer.util.PlayList
 import com.bumptech.glide.Glide
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -38,9 +41,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initYouTubePlayerView()
 
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
         viewModel.videoList.observe(this) { (videoList, currentVideo) ->
             loadVideoCover(currentVideo)
             createAndStartPlayList(videoList, currentVideo)
+        }
+        viewModel.action.observe(this) {event ->
+            if(event is Event.OpenSearchFragment){
+                navController.navigate(NavGraphDirections.actionGlobalSearchResultFragment(event.query))
+            }
         }
     }
 

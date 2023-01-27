@@ -33,9 +33,6 @@ class MusicFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.headerLayout.searchBarInputLayout.setEndIconOnClickListener {
-            viewModel.search(binding.headerLayout.searchBarEditText.text.toString())
-        }
         setupViewModel()
         setupFirstRecycler()
         setupSecondRecycler()
