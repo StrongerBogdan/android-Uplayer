@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bogdanmurzin.uplayer.databinding.FragmentHeaderBinding
 import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
+import com.bogdanmurzin.uplayer.util.Extensions.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,6 +28,8 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.searchBarInputLayout.setEndIconOnClickListener {
+            // hide keyboard
+            this.hideKeyboard()
             val searchText = binding.searchBarEditText.text
             if (!searchText.isNullOrEmpty()) mainViewModel.openSearchFragment(searchText.toString())
         }
