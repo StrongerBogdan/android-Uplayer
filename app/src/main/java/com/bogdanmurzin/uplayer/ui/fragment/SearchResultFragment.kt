@@ -10,10 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.adapter.SearchListRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.databinding.FragmnetSearchBinding
 import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
 import com.bogdanmurzin.uplayer.ui.viewmodel.SearchViewModel
+import com.bogdanmurzin.uplayer.util.RecyclerViewExtension.setDivider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,5 +53,6 @@ class SearchResultFragment : Fragment() {
         val recyclerView = binding.searchRecycler
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = layoutManager
+        recyclerView.setDivider(R.drawable.line_divider)
     }
 }
