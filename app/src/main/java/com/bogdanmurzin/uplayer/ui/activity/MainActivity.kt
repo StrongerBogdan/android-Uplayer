@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.NavGraphDirections
 import com.bogdanmurzin.uplayer.R
@@ -16,6 +18,7 @@ import com.bogdanmurzin.uplayer.util.CustomYouTubePlayerListener
 import com.bogdanmurzin.uplayer.util.Event
 import com.bogdanmurzin.uplayer.util.PlayList
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
@@ -41,16 +44,22 @@ class MainActivity : AppCompatActivity() {
         youTubePlayerView = binding.nowPlaying.youtubePlayerView
         setContentView(binding.root)
         initYouTubePlayerView()
-
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+        setupViewModel(navController)
+        // Setup bottom navigation with navgraph
+        val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        navView.setupWithNavController(navController)
+    }
 
+    private fun setupViewModel(navController: NavController) {
         viewModel.videoList.observe(this) { (videoList, currentVideo) ->
             loadVideoCover(currentVideo)
             createAndStartPlayList(videoList, currentVideo)
         }
-        viewModel.action.observe(this) {event ->
-            if(event is Event.OpenSearchFragment){
+        viewModel.action.observe(this) { event ->
+            if (event is Event.OpenSearchFragment) {
                 navController.navigate(NavGraphDirections.actionGlobalSearchResultFragment(event.query))
             }
         }
