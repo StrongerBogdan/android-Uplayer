@@ -18,4 +18,10 @@ object Constants {
     const val TAG = "DEBUG_TAGG"
     const val EMPTY_STRING = ""
     const val RETROFIT_VIDEO_NAMED = "RetrofitVideoClient"
+
+    // Notification
+    const val NOTIFICATION_MUSIC_ID = 301
+    const val NOTIFICATION_CHANNEL_ID = "com.bogdanmurzin.uplayer"
+    const val NOTIFICATION_CHANNEL_NAME = "Music service"
+    const val FLAGS = 0
 }
