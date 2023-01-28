@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/recycler_second_charts_width"
+    android:layout_height="@dimen/recycler_second_charts_height"
+    android:layout_marginStart="@dimen/recycler_second_charts_margin_side"
+    android:layout_marginEnd="@dimen/recycler_second_charts_margin_side"
+    android:background="@drawable/redial_gradient_center">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/second_chart_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/second_charts_image_height"
+        android:layout_marginTop="@dimen/charts_image_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/second_chart_video_name"
+        app:shapeAppearanceOverlay="@style/RoundedImageView.TopCorners"
+        tools:src="@color/purple_200" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/second_chart_video_name"
+        style="@style/Text.CaptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/second_charts_video_name_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/second_chart_image_view"
+        tools:text="Origins" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/second_chart_author"
+        style="@style/Text.SubtitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/author_text_margin_top"
+        android:textSize="@dimen/author_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/second_chart_video_name"
+        tools:text="IMAGINE DRAGONS" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

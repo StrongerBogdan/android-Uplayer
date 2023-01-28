@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/dark_gray">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/list_image_view"
+        android:layout_width="@dimen/recycler_list_item_image_size"
+        android:layout_height="@dimen/recycler_list_item_image_size"
+        android:layout_marginStart="@dimen/recycler_list_item_image_margin_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedImageView"
+        tools:src="@color/purple_200" />
+
+    <!-- Video Name -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/video_name"
+        style="@style/Text.ListVideoName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:layout_marginStart="@dimen/recycler_list_item_video_margin_start"
+        android:layout_marginTop="@dimen/recycler_list_item_video_margin_top"
+        android:textSize="@dimen/recycler_list_item_video_text_size"
+        app:layout_constraintStart_toEndOf="@id/list_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Chaff and Dust" />
+
+    <!-- Author Name -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/author_name"
+        style="@style/Text.ListAuthorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:layout_marginStart="@dimen/recycler_list_item_author_margin_start"
+        android:layout_marginTop="@dimen/recycler_list_item_author_margin_top"
+        android:textSize="@dimen/recycler_list_item_author_text_size"
+        app:layout_constraintStart_toEndOf="@id/list_image_view"
+        app:layout_constraintTop_toBottomOf="@id/video_name"
+        tools:text="Hyonna" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
