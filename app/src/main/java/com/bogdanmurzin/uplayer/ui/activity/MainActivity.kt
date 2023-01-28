@@ -1,6 +1,11 @@
 package com.bogdanmurzin.uplayer.ui.activity
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +18,7 @@ import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.NowPlayingBinding
+import com.bogdanmurzin.uplayer.service.MusicPlayerService
 import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
 import com.bogdanmurzin.uplayer.util.CustomYouTubePlayerListener
 import com.bogdanmurzin.uplayer.util.Event
@@ -23,7 +29,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBarListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,32 +42,68 @@ class MainActivity : AppCompatActivity() {
     private lateinit var youTubePlayer: YouTubePlayer
     private val viewModel: MainViewModel by viewModels()
     private lateinit var listener: YouTubePlayerListener
+    private lateinit var navController: NavController
+
+    // Service
+    private lateinit var mService: MusicPlayerService
+    private var mBound: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         youTubePlayerView = binding.nowPlaying.youtubePlayerView
         setContentView(binding.root)
-        initYouTubePlayerView()
+        // Get navController
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-        setupViewModel(navController)
+        navController = navHostFragment.navController
+        // Setup viewModel observe
+        setupViewModel()
         // Setup bottom navigation with navgraph
         val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         navView.setupWithNavController(navController)
     }
 
-    private fun setupViewModel(navController: NavController) {
+    override fun onStart() {
+        super.onStart()
+        initYouTubePlayerView()
+    }
+
+    private fun setupViewModel() {
         viewModel.videoList.observe(this) { (videoList, currentVideo) ->
-            loadVideoCover(currentVideo)
-            createAndStartPlayList(videoList, currentVideo)
+            // mBound = true when YT player is ready, and we can use it in service
+            if (mBound) {
+                loadVideoCover(currentVideo)
+                createAndStartPlayList(videoList, currentVideo)
+            }
         }
         viewModel.action.observe(this) { event ->
             if (event is Event.OpenSearchFragment) {
                 navController.navigate(NavGraphDirections.actionGlobalSearchResultFragment(event.query))
             }
         }
+    }
+
+    /** Defines callbacks for service binding, passed to bindService()  */
+    private val connection = object : ServiceConnection {
+
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            val binder = service as MusicPlayerService.LocalBinder
+            mService = binder.getService()
+            mBound = true
+            mService.setPlayer(youTubePlayer)
+        }
+
+        override fun onServiceDisconnected(className: ComponentName) {
+            mBound = false
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unbindService(connection)
+        mBound = false
     }
 
     // Loads title, channelName and video image
@@ -96,6 +137,10 @@ class MainActivity : AppCompatActivity() {
                     override fun seekTo(time: Float) = youTubePlayer.seekTo(time)
                 }
                 youTubePlayer.addListener(seekBar)
+                // Bind to MusicPlayerService after YouTube player is ready
+                Intent(this@MainActivity, MusicPlayerService::class.java).also { intent ->
+                    bindService(intent, connection, Context.BIND_AUTO_CREATE)
+                }
             }
         }
         // disable web ui
@@ -105,18 +150,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createAndStartPlayList(videoIdsList: List<VideoItem>, currentVideoId: VideoItem) {
-        PlayList(videoIdsList, currentVideoId).nextVideoId?.videoId?.let { videoId ->
-            loadVideo(videoId)
+        PlayList(videoIdsList, currentVideoId).nextVideoId?.let { video ->
+            mService.loadVideo(lifecycle, video)
+            startService(Intent(applicationContext, MusicPlayerService::class.java))
         }
-    }
-
-    private fun loadVideo(videoId: String) {
-        youTubePlayer.loadOrCueVideo(lifecycle, videoId, 0f)
-        binding.nowPlaying.playPauseButton.setImageResource(R.drawable.pause_icon)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         youTubePlayerView.release()
+        Intent(this, MusicPlayerService::class.java).also { stopService(it) }
     }
 }
