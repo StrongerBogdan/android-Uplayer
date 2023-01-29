@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_bar_input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/searchbar_margin_start"
+        android:layout_marginTop="@dimen/searchbar_margin_top"
+        android:layout_marginEnd="@dimen/searchbar_margin_end"
+        app:endIconDrawable="@drawable/search_icon"
+        app:endIconMode="custom"
+        app:endIconTint="@color/ghost_white"
+        android:layout_marginBottom="@dimen/searchbar_margin_bottom">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_bar_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_bar_outlined"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingTop="@dimen/search_edit_text_padding_vertical"
+            android:paddingBottom="@dimen/search_edit_text_padding_vertical"
+            android:textColor="@color/ghost_white"
+            tools:text="Search Text Test" />
+    </com.google.android.material.textfield.TextInputLayout>
+</FrameLayout>
