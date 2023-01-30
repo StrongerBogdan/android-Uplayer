@@ -8,19 +8,6 @@
     tools:context=".ui.activity.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_header_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/main_header_height"
-        android:background="@color/gray"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/nav_host_fragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/header_nav_graph" />
-
-    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
@@ -29,7 +16,7 @@
         app:layout_constraintBottom_toTopOf="@id/play_now_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nav_header_fragment"
+        app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/nav_graph" />
 
 
