@@ -61,4 +61,8 @@
     <style name="BottomNav">
         <item name="android:background">@color/dark_gray2</item>
     </style>
+    <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+    </style>
 </resources>
