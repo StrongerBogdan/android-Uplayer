@@ -15,6 +15,7 @@ import com.bogdanmurzin.uplayer.ui.charts.adapter.ChartsRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.common.Constants.TAG
 import com.bogdanmurzin.uplayer.databinding.FragmentMusicBinding
+import com.bogdanmurzin.uplayer.ui.MainActivity
 import com.bogdanmurzin.uplayer.viewmodel.charts.ChartsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,6 +57,7 @@ class MusicFragment : Fragment() {
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.FIRST_CHART_VIEW_LAYOUT) {
 //                viewModel.getVideoIds(recyclerAdapter1.currentList, it)
                 // TODO On chart 1 video clicked
+                (activity as MainActivity).loadVideoCover(it)
                 Log.i(TAG, "setupFirstRecycler: Chart1 video clicked ${it.title}")
             }
         val recyclerView = binding.recyclerCharts
@@ -70,6 +72,7 @@ class MusicFragment : Fragment() {
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.SECOND_CHART_VIEW_LAYOUT) {
 //                viewModel.getVideoIds(recyclerAdapter2.currentList, it)
                 // TODO On chart 1 video clicked
+                (activity as MainActivity).loadVideoCover(it)
                 Log.i(TAG, "setupFirstRecycler: Chart2 video clicked ${it.title}")
             }
         val recyclerView = binding.recyclerSecondCharts

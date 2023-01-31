@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity() {
 
     // Loads title, channelName and video image
     //TODO rework
-    private fun loadVideoCover(currentVideo: VideoItem) {
+    fun loadVideoCover(currentVideo: VideoItem) {
         binding.playNowFrame.visibility = View.VISIBLE
-        with(binding.nowPlaying.nowPlayingCover) {
+        with(binding.nowPlaying) {
             videoName.text = currentVideo.title
             authorName.text = currentVideo.author
             Glide.with(binding.root.context)

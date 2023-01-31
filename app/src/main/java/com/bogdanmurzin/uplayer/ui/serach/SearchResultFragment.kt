@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bogdanmurzin.uplayer.R
-import com.bogdanmurzin.uplayer.databinding.FragmnetSearchBinding
+import com.bogdanmurzin.uplayer.databinding.FragmentSearchBinding
 import com.bogdanmurzin.uplayer.ui.serach.adapter.SearchListRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.util.extension.RecyclerViewExtension.setDivider
 import com.bogdanmurzin.uplayer.viewmodel.MainViewModel
@@ -21,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchResultFragment : Fragment() {
 
-    private lateinit var binding: FragmnetSearchBinding
+    private lateinit var binding: FragmentSearchBinding
     private lateinit var recyclerAdapter: SearchListRecyclerViewAdapter
     private val viewModel: SearchViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
@@ -31,7 +31,7 @@ class SearchResultFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmnetSearchBinding.inflate(layoutInflater)
+        binding = FragmentSearchBinding.inflate(layoutInflater)
         return binding.root
     }
 

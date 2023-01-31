@@ -33,7 +33,7 @@
 
         <include
             android:id="@+id/now_playing"
-            layout="@layout/now_playing" />
+            layout="@layout/fragment_now_playing" />
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
