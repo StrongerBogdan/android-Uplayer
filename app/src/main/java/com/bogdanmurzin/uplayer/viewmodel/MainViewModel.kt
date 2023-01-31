@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui.viewmodel
+package com.bogdanmurzin.uplayer.viewmodel
 
 import androidx.lifecycle.*
 import com.bogdanmurzin.domain.entities.VideoItem
@@ -6,8 +6,8 @@ import com.bogdanmurzin.domain.usecases.GetVideosUseCase
 import com.bogdanmurzin.uplayer.common.Constants.CHARTS_VIDEO_COUNT
 import com.bogdanmurzin.uplayer.common.Constants.SECOND_CHARTS_VIDEO_COUNT
 import com.bogdanmurzin.uplayer.common.SingleLiveEvent
-import com.bogdanmurzin.uplayer.util.DefaultCoroutineDispatcherProvider
-import com.bogdanmurzin.uplayer.util.Event
+import com.bogdanmurzin.uplayer.di.DefaultCoroutineDispatcherProvider
+import com.bogdanmurzin.uplayer.model.event.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

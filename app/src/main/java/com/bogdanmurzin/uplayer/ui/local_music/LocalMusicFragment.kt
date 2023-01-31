@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui.fragment
+package com.bogdanmurzin.uplayer.ui.local_music
 
 import android.os.Bundle
 import android.view.LayoutInflater

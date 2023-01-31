@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui.viewmodel
+package com.bogdanmurzin.uplayer.viewmodel.charts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.domain.usecases.GetVideosUseCase
 import com.bogdanmurzin.uplayer.common.Constants
-import com.bogdanmurzin.uplayer.util.DefaultCoroutineDispatcherProvider
+import com.bogdanmurzin.uplayer.di.DefaultCoroutineDispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch

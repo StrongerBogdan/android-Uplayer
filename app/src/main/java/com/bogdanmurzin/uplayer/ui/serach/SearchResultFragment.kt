@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui.fragment
+package com.bogdanmurzin.uplayer.ui.serach
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +11,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bogdanmurzin.uplayer.R
-import com.bogdanmurzin.uplayer.adapter.SearchListRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.databinding.FragmnetSearchBinding
-import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
-import com.bogdanmurzin.uplayer.ui.viewmodel.SearchViewModel
-import com.bogdanmurzin.uplayer.util.RecyclerViewExtension.setDivider
+import com.bogdanmurzin.uplayer.ui.serach.adapter.SearchListRecyclerViewAdapter
+import com.bogdanmurzin.uplayer.util.extension.RecyclerViewExtension.setDivider
+import com.bogdanmurzin.uplayer.viewmodel.MainViewModel
+import com.bogdanmurzin.uplayer.viewmodel.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

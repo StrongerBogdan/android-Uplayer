@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui.fragment
+package com.bogdanmurzin.uplayer.ui.charts
 
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +11,11 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bogdanmurzin.uplayer.adapter.ChartsRecyclerViewAdapter
+import com.bogdanmurzin.uplayer.ui.charts.adapter.ChartsRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.common.Constants.TAG
 import com.bogdanmurzin.uplayer.databinding.FragmentMusicBinding
-import com.bogdanmurzin.uplayer.ui.viewmodel.ChartsViewModel
+import com.bogdanmurzin.uplayer.viewmodel.charts.ChartsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

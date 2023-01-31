@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui.activity
+package com.bogdanmurzin.uplayer.ui
 
 import android.os.Bundle
 import android.view.View

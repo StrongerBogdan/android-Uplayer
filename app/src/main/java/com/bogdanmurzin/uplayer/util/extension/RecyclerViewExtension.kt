@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.util
+package com.bogdanmurzin.uplayer.util.extension
 
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat

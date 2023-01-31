@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.util
+package com.bogdanmurzin.uplayer.model.playlist
 
 import com.bogdanmurzin.domain.entities.VideoItem
 

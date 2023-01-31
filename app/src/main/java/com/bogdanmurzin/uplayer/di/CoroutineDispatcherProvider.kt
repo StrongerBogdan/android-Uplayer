@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.util
+package com.bogdanmurzin.uplayer.di
 
 import kotlinx.coroutines.CoroutineDispatcher
 

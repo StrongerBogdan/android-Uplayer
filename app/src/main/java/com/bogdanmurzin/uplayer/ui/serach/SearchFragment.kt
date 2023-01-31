@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.ui.fragment
+package com.bogdanmurzin.uplayer.ui.serach
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bogdanmurzin.uplayer.databinding.FragmentHeaderBinding
-import com.bogdanmurzin.uplayer.ui.viewmodel.MainViewModel
-import com.bogdanmurzin.uplayer.util.Extensions.hideKeyboard
+import com.bogdanmurzin.uplayer.viewmodel.MainViewModel
+import com.bogdanmurzin.uplayer.util.extension.Extensions.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

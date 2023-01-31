@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.util
+package com.bogdanmurzin.uplayer.model.event
 
 sealed class Event {
     data class OpenSearchFragment(val query: String) : Event()

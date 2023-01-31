@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.util
+package com.bogdanmurzin.uplayer.util.extension
 
 import android.app.Activity
 import android.content.Context
