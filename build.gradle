@@ -39,6 +39,5 @@ ext {
     okhttp_version = '4.10.0'
     room_version = '2.4.3'
     view_binding_version = '1.5.6'
-    timber_version = '5.0.1'
     media3_version = '1.0.0-beta03'
 }
