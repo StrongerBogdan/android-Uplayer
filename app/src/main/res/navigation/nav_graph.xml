@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/musicFragment"
-        android:name="com.bogdanmurzin.uplayer.ui.charts.MusicFragment"
+        android:name="com.bogdanmurzin.uplayer.ui.charts.ChartsFragment"
         android:label="fragment_music"
-        tools:layout="@layout/fragment_music" >
+        tools:layout="@layout/fragment_charts" >
         <action
             android:id="@+id/action_musicFragment_to_searchResultFragment"
             app:destination="@id/searchResultFragment" />

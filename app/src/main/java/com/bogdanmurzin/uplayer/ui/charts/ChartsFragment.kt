@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
-import com.bogdanmurzin.uplayer.databinding.FragmentMusicBinding
+import com.bogdanmurzin.uplayer.databinding.FragmentChartsBinding
 import com.bogdanmurzin.uplayer.model.event.Event
 import com.bogdanmurzin.uplayer.ui.MainActivity
 import com.bogdanmurzin.uplayer.ui.charts.adapter.ChartsRecyclerViewAdapter
@@ -21,9 +21,9 @@ import com.bogdanmurzin.uplayer.viewmodel.charts.ChartsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MusicFragment : Fragment(R.layout.fragment_music) {
+class ChartsFragment : Fragment(R.layout.fragment_charts) {
 
-    private val binding: FragmentMusicBinding by viewBinding(FragmentMusicBinding::bind)
+    private val binding: FragmentChartsBinding by viewBinding(FragmentChartsBinding::bind)
     private lateinit var recyclerAdapter1: ChartsRecyclerViewAdapter
     private lateinit var recyclerAdapter2: ChartsRecyclerViewAdapter
     private val viewModel by viewModels<ChartsViewModel>()
@@ -40,7 +40,7 @@ class MusicFragment : Fragment(R.layout.fragment_music) {
         with(binding.headerFragment) {
             searchBarInputLayout.setEndIconOnClickListener {
                 // hide keyboard
-                this@MusicFragment.hideKeyboard()
+                this@ChartsFragment.hideKeyboard()
                 val searchText = searchBarEditText.text
                 if (!searchText.isNullOrEmpty()) viewModel.openSearchFragment(searchText.toString())
             }
@@ -54,7 +54,7 @@ class MusicFragment : Fragment(R.layout.fragment_music) {
             if (event is Event.OpenSearchFragment) {
                 findNavController()
                     .navigate(
-                        MusicFragmentDirections.actionMusicFragmentToSearchResultFragment(event.query)
+                        ChartsFragmentDirections.actionMusicFragmentToSearchResultFragment(event.query)
                     )
                 // clear searchBar after navigation
                 binding.headerFragment.searchBarEditText.text?.clear()
