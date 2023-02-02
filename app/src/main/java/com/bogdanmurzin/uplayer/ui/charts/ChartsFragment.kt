@@ -56,8 +56,6 @@ class ChartsFragment : Fragment(R.layout.fragment_charts) {
                     .navigate(
                         ChartsFragmentDirections.actionMusicFragmentToSearchResultFragment(event.query)
                     )
-                // clear searchBar after navigation
-                binding.headerFragment.searchBarEditText.text?.clear()
             }
         }
     }
@@ -86,5 +84,11 @@ class ChartsFragment : Fragment(R.layout.fragment_charts) {
         val recyclerView = binding.recyclerSecondCharts
         recyclerView.adapter = recyclerAdapter2
         recyclerView.layoutManager = layoutManager
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // clear searchBar after return to screen
+        binding.headerFragment.searchBarEditText.text?.clear()
     }
 }
