@@ -128,7 +128,7 @@ class MusicPlayerService : Service(), CoroutineScope {
             .addAction(
                 NotificationCompat.Action(
                     playPauseDrawer,
-                    getString(R.string.play_pause),
+                    getString(R.string.play),
                     MediaButtonReceiver.buildMediaButtonPendingIntent(
                         this,
                         PlaybackStateCompat.ACTION_PLAY_PAUSE
