@@ -66,7 +66,8 @@ class ChartsFragment : Fragment(R.layout.fragment_charts) {
         recyclerAdapter1 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.FIRST_CHART_VIEW_LAYOUT) {
                 // TODO On chart 1 video clicked
-                (activity as MainActivity).loadVideoCover(it)
+//                (activity as MainActivity).loadVideoCover(it)
+                (activity as MainActivity).createAndStartPlayList(emptyList(), it)
             }
         val recyclerView = binding.recyclerCharts
         recyclerView.adapter = recyclerAdapter1
@@ -79,7 +80,8 @@ class ChartsFragment : Fragment(R.layout.fragment_charts) {
         recyclerAdapter2 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.SECOND_CHART_VIEW_LAYOUT) {
                 // TODO On chart 1 video clicked
-                (activity as MainActivity).loadVideoCover(it)
+//                (activity as MainActivity).loadVideoCover(it)
+                (activity as MainActivity).createAndStartPlayList(emptyList(), it)
             }
         val recyclerView = binding.recyclerSecondCharts
         recyclerView.adapter = recyclerAdapter2

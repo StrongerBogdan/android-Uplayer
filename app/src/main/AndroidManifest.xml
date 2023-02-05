@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.MusicPlayerService" android:foregroundServiceType="mediaPlayback"
+        <service android:name=".service.YoutubePlayerService" android:foregroundServiceType="mediaPlayback"
             android:exported="false">
             <intent-filter>
             <action android:name="android.intent.action.MEDIA_BUTTON" />
