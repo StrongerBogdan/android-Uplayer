@@ -14,9 +14,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.media.session.MediaButtonReceiver
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.BuildConfig
-import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
-import com.bogdanmurzin.uplayer.service.callback.MediaSessionCallback
+import com.bogdanmurzin.uplayer.common.Constants.TAG
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
@@ -38,11 +37,10 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     private var player: YouTubePlayer? = null
     private var currentVideoItem: VideoItem? = null
-    private var isPlay = true
+    var isPlay = true
+        private set
 
-    override fun onCreate() {
-        super.onCreate()
-
+    override fun onBind(intent: Intent?): IBinder {
         mMediaSessionCompat = MediaSessionCompat(this, MEDIA_TAG)
 
         playbackState = PlaybackStateCompat.Builder()
@@ -63,11 +61,13 @@ class YoutubePlayerService : Service(), CoroutineScope {
         mMediaSessionCompat?.isActive = true
 
         notificationManager = MediaNotificationManager(this)
+
+        return binder
     }
 
     fun setPlayer(youTubePlayer: YouTubePlayer) {
         player = youTubePlayer
-        mMediaSessionCompat?.setCallback(MediaSessionCallback(youTubePlayer))
+//        mMediaSessionCompat?.setCallback(MediaSessionCallback(youTubePlayer))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -78,16 +78,15 @@ class YoutubePlayerService : Service(), CoroutineScope {
             }
             if (Intent.ACTION_MEDIA_BUTTON == intent?.action) {
                 val keyEvent: KeyEvent? = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT)
-                if (keyEvent?.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                    if (isPlay) {
-                        player?.pause()
-                        isPlay = false
-                        Log.i(Constants.TAG, "keyEvent pause")
-                    } else {
-                        player?.play()
-                        isPlay = true
-                        Log.i(Constants.TAG, "keyEvent play")
-                    }
+                if (keyEvent?.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+                    player?.play()
+                    isPlay = true
+                    Log.i(TAG, "keyEvent play")
+                }
+                if (keyEvent?.keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
+                    player?.pause()
+                    isPlay = false
+                    Log.i(TAG, "keyEvent pause")
                 }
             }
             currentVideoItem?.let {
@@ -120,8 +119,6 @@ class YoutubePlayerService : Service(), CoroutineScope {
         super.onDestroy()
         job.cancel()
     }
-
-    override fun onBind(intent: Intent?): IBinder = binder
 
     inner class LocalBinder : Binder() {
         // Return this instance of LocalService so clients can call public methods

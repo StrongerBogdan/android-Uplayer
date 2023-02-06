@@ -77,7 +77,8 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
         videoData: VideoItem,
         state: PlaybackStateCompat
     ): Notification {
-        val isPlaying = state.state == PlaybackStateCompat.STATE_PLAYING
+//        val isPlaying = state.state == PlaybackStateCompat.STATE_PLAYING
+        val isPlaying = service.isPlay
         val builder: NotificationCompat.Builder =
             buildNotification(state, isPlaying, videoData)
         return builder.build()
