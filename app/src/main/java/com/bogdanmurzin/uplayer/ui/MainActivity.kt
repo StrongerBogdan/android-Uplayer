@@ -50,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         // Setup bottom navigation with navgraph
         binding.bottomNavigation.setupWithNavController(navController)
+
+        initYouTubePlayerView()
     }
 
     // Loads title, channelName and video image
@@ -65,11 +67,6 @@ class MainActivity : AppCompatActivity() {
                 .centerCrop()
                 .into(videoPreview)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        initYouTubePlayerView()
     }
 
     override fun onStop() {
