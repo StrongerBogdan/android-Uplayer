@@ -15,6 +15,8 @@ import androidx.media.session.MediaButtonReceiver
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants
+import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
+import com.bogdanmurzin.uplayer.service.callback.MediaSessionCallback
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
@@ -28,7 +30,8 @@ class YoutubePlayerService : Service(), CoroutineScope {
         get() = Dispatchers.IO + job
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    private lateinit var mMediaSessionCompat: MediaSessionCompat
+    var mMediaSessionCompat: MediaSessionCompat? = null
+        private set
     private lateinit var playbackState: PlaybackStateCompat
     private val binder = LocalBinder()
     private lateinit var notificationManager: MediaNotificationManager
@@ -51,18 +54,20 @@ class YoutubePlayerService : Service(), CoroutineScope {
                         PlaybackStateCompat.ACTION_SEEK_TO
             )
             .setState(
-                PlaybackStateCompat.STATE_STOPPED,
+                PlaybackStateCompat.STATE_PLAYING,
                 PlaybackState.PLAYBACK_POSITION_UNKNOWN,
                 0f
             )
             .build()
-        mMediaSessionCompat.setPlaybackState(playbackState)
+        mMediaSessionCompat?.setPlaybackState(playbackState)
+        mMediaSessionCompat?.isActive = true
 
         notificationManager = MediaNotificationManager(this)
     }
 
     fun setPlayer(youTubePlayer: YouTubePlayer) {
         player = youTubePlayer
+        mMediaSessionCompat?.setCallback(MediaSessionCallback(youTubePlayer))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -88,12 +93,10 @@ class YoutubePlayerService : Service(), CoroutineScope {
             currentVideoItem?.let {
                 val notification = notificationManager.getNotification(
                     it,
-                    playbackState,
-                    mMediaSessionCompat.sessionToken
+                    playbackState
                 )
-                startForeground(Constants.NOTIFICATION_MUSIC_ID, notification)
+                startForeground(NOTIFICATION_MUSIC_ID, notification)
             }
-//            generateNotification()
         }
         return START_STICKY
     }
