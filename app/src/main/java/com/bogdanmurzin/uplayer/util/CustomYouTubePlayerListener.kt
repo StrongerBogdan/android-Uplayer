@@ -27,10 +27,9 @@ class CustomYouTubePlayerListener(
         playPauseButton.setOnClickListener {
             if (playerTracker.state == PlayerState.PLAYING) {
                 youTubePlayer.pause()
-                binding.playPauseButton.setImageResource(R.drawable.play_icon)
-            } else {
+            }
+            if (playerTracker.state == PlayerState.PAUSED) {
                 youTubePlayer.play()
-                binding.playPauseButton.setImageResource(R.drawable.pause_icon)
             }
         }
     }
@@ -39,5 +38,14 @@ class CustomYouTubePlayerListener(
         YouTubePlayerTracker()
         val playerTracker = YouTubePlayerTracker()
         youTubePlayer.addListener(playerTracker)
+    }
+
+    override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerState) {
+        super.onStateChange(youTubePlayer, state)
+        when (state) {
+            PlayerState.PAUSED -> binding.playPauseButton.setImageResource(R.drawable.play_icon)
+            PlayerState.PLAYING -> binding.playPauseButton.setImageResource(R.drawable.pause_icon)
+            else -> {}
+        }
     }
 }
