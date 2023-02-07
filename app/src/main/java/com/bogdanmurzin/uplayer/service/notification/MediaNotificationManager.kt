@@ -23,6 +23,7 @@ import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.service.YoutubePlayerService
 import com.bogdanmurzin.uplayer.ui.MainActivity
 import com.bumptech.glide.Glide
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 
 
 class MediaNotificationManager(private val service: YoutubePlayerService) {
@@ -75,18 +76,16 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
 
     fun getNotification(
         videoData: VideoItem,
-        state: PlaybackStateCompat
+        state: PlayerConstants.PlayerState
     ): Notification {
 //        val isPlaying = state.state == PlaybackStateCompat.STATE_PLAYING
-        val isPlaying = service.isPlay
         val builder: NotificationCompat.Builder =
-            buildNotification(state, isPlaying, videoData)
+            buildNotification(state, videoData)
         return builder.build()
     }
 
     private fun buildNotification(
-        state: PlaybackStateCompat,
-        isPlaying: Boolean,
+        state: PlayerConstants.PlayerState,
         videoData: VideoItem
     ): NotificationCompat.Builder {
 
@@ -108,16 +107,9 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
             )
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-        // If skip to next action is enabled.
-        if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS != 0L) {
-            builder.addAction(mPrevAction)
-        }
-        builder.addAction(if (isPlaying) mPauseAction else mPlayAction)
-
-        // If skip to prev action is enabled.
-        if (state.actions and PlaybackStateCompat.ACTION_SKIP_TO_NEXT != 0L) {
-            builder.addAction(mNextAction)
-        }
+        builder.addAction(mPrevAction)
+        builder.addAction(if (state == PlayerConstants.PlayerState.PLAYING) mPauseAction else mPlayAction)
+        builder.addAction(mNextAction)
         return builder
     }
 

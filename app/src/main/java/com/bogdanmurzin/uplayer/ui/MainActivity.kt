@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -18,6 +19,7 @@ import com.bogdanmurzin.uplayer.databinding.FragmentNowPlayingBinding
 import com.bogdanmurzin.uplayer.service.YoutubePlayerService
 import com.bogdanmurzin.uplayer.util.CustomYouTubePlayerListener
 import com.bumptech.glide.Glide
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
@@ -117,6 +119,29 @@ class MainActivity : AppCompatActivity() {
                 // Bind to MusicPlayerService after YouTube player is ready
                 Intent(this@MainActivity, YoutubePlayerService::class.java).also { intent ->
                     bindService(intent, connection, Context.BIND_AUTO_CREATE)
+                }
+            }
+
+            override fun onStateChange(
+                youTubePlayer: YouTubePlayer,
+                state: PlayerConstants.PlayerState
+            ) {
+                super.onStateChange(youTubePlayer, state)
+
+                val keyDown: KeyEvent? = when (state) {
+                    PlayerConstants.PlayerState.PAUSED ->
+                        KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE)
+                    PlayerConstants.PlayerState.PLAYING ->
+                        KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY)
+                    else -> null
+                }
+
+                Intent(this@MainActivity, YoutubePlayerService::class.java).also { intent ->
+                    keyDown?.let {
+                        intent.action = Intent.ACTION_MEDIA_BUTTON
+                        intent.putExtra(Intent.EXTRA_KEY_EVENT, keyDown)
+                    }
+                    startService(intent)
                 }
             }
         }
