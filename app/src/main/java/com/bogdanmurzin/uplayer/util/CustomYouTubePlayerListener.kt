@@ -35,8 +35,6 @@ class CustomYouTubePlayerListener(
     }
 
     override fun onReady(youTubePlayer: YouTubePlayer) {
-        YouTubePlayerTracker()
-        val playerTracker = YouTubePlayerTracker()
         youTubePlayer.addListener(playerTracker)
     }
 

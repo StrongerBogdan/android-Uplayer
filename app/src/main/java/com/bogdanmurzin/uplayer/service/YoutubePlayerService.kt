@@ -18,9 +18,11 @@ import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
+@AndroidEntryPoint
 class YoutubePlayerService : Service(), CoroutineScope {
 
     private val job = Job()
@@ -30,7 +32,8 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     var mMediaSessionCompat: MediaSessionCompat? = null
         private set
-    private lateinit var playbackState: PlayerConstants.PlayerState
+    var playbackState = PlayerConstants.PlayerState.UNKNOWN
+        private set
     private val binder = LocalBinder()
     private lateinit var notificationManager: MediaNotificationManager
 
@@ -50,7 +53,6 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     fun setPlayer(youTubePlayer: YouTubePlayer) {
         player = youTubePlayer
-//        mMediaSessionCompat?.setCallback(MediaSessionCallback(youTubePlayer))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -107,16 +109,14 @@ class YoutubePlayerService : Service(), CoroutineScope {
         job.cancel()
     }
 
-    fun play() {
+    private fun play() {
         player?.play()
         playbackState = PlayerConstants.PlayerState.PLAYING
-//        startService()
     }
 
-    fun pause() {
+    private fun pause() {
         player?.pause()
         playbackState = PlayerConstants.PlayerState.PAUSED
-//        startService()
     }
 
     inner class LocalBinder : Binder() {
