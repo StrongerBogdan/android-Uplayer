@@ -107,7 +107,7 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
         builder.addAction(mPrevAction)
-        builder.addAction(if (state == PlayerConstants.PlayerState.PLAYING) mPauseAction else mPlayAction)
+        builder.addAction(if (state == PlayerConstants.PlayerState.PAUSED) mPlayAction else mPauseAction)
         builder.addAction(mNextAction)
         return builder
     }

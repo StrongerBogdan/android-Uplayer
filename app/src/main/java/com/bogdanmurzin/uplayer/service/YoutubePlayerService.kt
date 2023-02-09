@@ -13,10 +13,11 @@ import androidx.media.session.MediaButtonReceiver
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
-import com.bogdanmurzin.uplayer.common.Constants.TAG
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -30,21 +31,29 @@ class YoutubePlayerService : Service(), CoroutineScope {
         get() = Dispatchers.IO + job
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    var mMediaSessionCompat: MediaSessionCompat? = null
-        private set
-    var playbackState = PlayerConstants.PlayerState.UNKNOWN
-        private set
+    private var mMediaSessionCompat: MediaSessionCompat? = null
+    private val playbackState = YouTubePlayerTracker()
     private val binder = LocalBinder()
     private lateinit var notificationManager: MediaNotificationManager
 
     private var player: YouTubePlayer? = null
     private var currentVideoItem: VideoItem? = null
+    private val listener = object : AbstractYouTubePlayerListener() {
+        override fun onStateChange(
+            youTubePlayer: YouTubePlayer,
+            state: PlayerConstants.PlayerState
+        ) {
+            super.onStateChange(youTubePlayer, state)
+            if (state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.PLAYING) {
+                Log.i(DEBUG_TAG, "onStateChange: $state")
+                startService()
+            }
+        }
+    }
 
     override fun onBind(intent: Intent?): IBinder {
         mMediaSessionCompat = MediaSessionCompat(this, MEDIA_TAG)
         mMediaSessionCompat?.isActive = true
-
-        playbackState = PlayerConstants.PlayerState.PLAYING
 
         notificationManager = MediaNotificationManager(this)
 
@@ -53,8 +62,11 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     fun setPlayer(youTubePlayer: YouTubePlayer) {
         player = youTubePlayer
+        youTubePlayer.addListener(listener)
+        youTubePlayer.addListener(playbackState)
     }
 
+    @Suppress("DEPRECATION")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceScope.launch {
             MediaButtonReceiver.handleIntent(mMediaSessionCompat, intent)
@@ -65,11 +77,11 @@ class YoutubePlayerService : Service(), CoroutineScope {
                 val keyEvent: KeyEvent? = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT)
                 if (keyEvent?.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
                     play()
-                    Log.i(TAG, "keyEvent play")
+                    Log.i(DEBUG_TAG, "keyEvent play")
                 }
                 if (keyEvent?.keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
                     pause()
-                    Log.i(TAG, "keyEvent pause")
+                    Log.i(DEBUG_TAG, "keyEvent pause")
                 }
                 startService()
             }
@@ -82,7 +94,7 @@ class YoutubePlayerService : Service(), CoroutineScope {
             currentVideoItem?.let {
                 val notification = notificationManager.getNotification(
                     it,
-                    playbackState
+                    playbackState.state
                 )
                 startForeground(NOTIFICATION_MUSIC_ID, notification)
             }
@@ -91,10 +103,10 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     fun loadVideo(lifecycle: Lifecycle, video: VideoItem) {
         currentVideoItem = video
-        playbackState = PlayerConstants.PlayerState.PLAYING
         player?.loadOrCueVideo(lifecycle, video.videoId, 0f)
     }
 
+    @Suppress("DEPRECATION")
     private fun stopForegroundService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopForeground(STOP_FOREGROUND_REMOVE)
@@ -111,12 +123,10 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     private fun play() {
         player?.play()
-        playbackState = PlayerConstants.PlayerState.PLAYING
     }
 
     private fun pause() {
         player?.pause()
-        playbackState = PlayerConstants.PlayerState.PAUSED
     }
 
     inner class LocalBinder : Binder() {
@@ -127,5 +137,6 @@ class YoutubePlayerService : Service(), CoroutineScope {
     companion object {
         const val ACTION_STOP_FOREGROUND = "${BuildConfig.APPLICATION_ID}.stopforeground"
         val MEDIA_TAG: String = MusicPlayerService::class.java.simpleName
+        const val DEBUG_TAG = "YTServiceDebug"
     }
 }
