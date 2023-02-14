@@ -2,13 +2,20 @@ package com.bogdanmurzin.uplayer.model.playlist
 
 import com.bogdanmurzin.domain.entities.VideoItem
 
-class PlayList(videoList: List<VideoItem>, currentVideo: VideoItem) {
+class PlayList(private val videoList: List<VideoItem>, pickedVideo: VideoItem) {
 
-    private val position: Int = videoList.indexOf(currentVideo)
+    private var position = videoList.indexOf(pickedVideo)
 
-    private val iterator = videoList.listIterator(position)
+    val currentVideo: VideoItem
+        get() = videoList[position - 1]
 
-    val nextVideoId: VideoItem? = if (iterator.hasNext()) iterator.next() else null
+    fun nextVideo(): VideoItem? {
+        if (position + 1 >= videoList.size) return null
+        return videoList[position++]
+    }
 
-    val previousVideoId: VideoItem? = if (iterator.hasPrevious()) iterator.previous() else null
+    fun prevVideo(): VideoItem? {
+        if (position - 1 < 0) return null
+        return videoList[--position]
+    }
 }

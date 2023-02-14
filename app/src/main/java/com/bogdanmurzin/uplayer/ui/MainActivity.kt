@@ -15,6 +15,7 @@ import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.FragmentNowPlayingBinding
+import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.YoutubePlayerService
 import com.bogdanmurzin.uplayer.util.CustomYouTubePlayerListener
 import com.bumptech.glide.Glide
@@ -126,7 +127,7 @@ class MainActivity : AppCompatActivity() {
         youTubePlayerView.enableBackgroundPlayback(true)
     }
 
-    fun createAndStartPlayList(videoIdsList: List<VideoItem>, currentVideoId: VideoItem) {
+    fun createAndStartPlayList(videoIdsList: List<VideoItem>, pickedVideoId: VideoItem) {
 //        PlayList(videoIdsList, currentVideoId).nextVideoId?.let { video ->
 //            mService.loadVideo(lifecycle, video)
 //            loadVideoCover(video)
@@ -134,9 +135,13 @@ class MainActivity : AppCompatActivity() {
 //        }
         // mBound = true when YT player is ready, and we can use it in service
         if (mBound) {
-            mService.loadVideo(lifecycle, currentVideoId)
-            loadVideoCover(currentVideoId)
+            val playList = PlayList(videoIdsList, pickedVideoId)
+            mService.loadPlaylist(lifecycle, playList)
+            loadVideoCover(playList.currentVideo)
             startService(Intent(applicationContext, YoutubePlayerService::class.java))
+//            mService.loadVideo(lifecycle, currentVideoId)
+//            loadVideoCover(currentVideoId)
+//            startService(Intent(applicationContext, YoutubePlayerService::class.java))
         }
     }
 }

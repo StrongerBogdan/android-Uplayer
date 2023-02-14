@@ -13,6 +13,7 @@ import androidx.media.session.MediaButtonReceiver
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
+import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -37,15 +38,23 @@ class YoutubePlayerService : Service(), CoroutineScope {
     private lateinit var notificationManager: MediaNotificationManager
 
     private var player: YouTubePlayer? = null
+    private lateinit var lifecycle: Lifecycle
     private var currentVideoItem: VideoItem? = null
+    private var currentPlaylist: PlayList? = null
     private val listener = object : AbstractYouTubePlayerListener() {
         override fun onStateChange(
             youTubePlayer: YouTubePlayer,
             state: PlayerConstants.PlayerState
         ) {
             super.onStateChange(youTubePlayer, state)
-            if (state == PlayerConstants.PlayerState.PAUSED || state == PlayerConstants.PlayerState.PLAYING) {
-                Log.i(DEBUG_TAG, "onStateChange: $state")
+            if (state == PlayerConstants.PlayerState.ENDED) {
+                next()
+            }
+            if (state == PlayerConstants.PlayerState.PAUSED ||
+                state == PlayerConstants.PlayerState.PLAYING ||
+                state == PlayerConstants.PlayerState.ENDED
+            ) {
+                Log.i(TAG, "onStateChange: $state")
                 startService()
             }
         }
@@ -75,18 +84,28 @@ class YoutubePlayerService : Service(), CoroutineScope {
             }
             if (Intent.ACTION_MEDIA_BUTTON == intent?.action) {
                 val keyEvent: KeyEvent? = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT)
-                if (keyEvent?.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
-                    play()
-                    Log.i(DEBUG_TAG, "keyEvent play")
-                }
-                if (keyEvent?.keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
-                    pause()
-                    Log.i(DEBUG_TAG, "keyEvent pause")
+                when (keyEvent?.keyCode) {
+                    KeyEvent.KEYCODE_MEDIA_NEXT -> next().also { Log.i(TAG, "keyEvent next") }
+                    KeyEvent.KEYCODE_MEDIA_PREVIOUS -> prev().also { Log.i(TAG, "keyEvent prev") }
+                    KeyEvent.KEYCODE_MEDIA_PLAY -> play().also { Log.i(TAG, "keyEvent play") }
+                    KeyEvent.KEYCODE_MEDIA_PAUSE -> pause().also { Log.i(TAG, "keyEvent pause") }
                 }
                 startService()
             }
         }
         return START_STICKY
+    }
+
+    private fun prev() {
+        currentPlaylist?.prevVideo()?.let {
+            loadVideo(lifecycle, it)
+        }
+    }
+
+    private fun next() {
+        currentPlaylist?.nextVideo()?.let {
+            loadVideo(lifecycle, it)
+        }
     }
 
     private fun startService() {
@@ -98,6 +117,14 @@ class YoutubePlayerService : Service(), CoroutineScope {
                 )
                 startForeground(NOTIFICATION_MUSIC_ID, notification)
             }
+        }
+    }
+
+    fun loadPlaylist(lifecycle: Lifecycle, playlist: PlayList) {
+        currentPlaylist = playlist
+        this.lifecycle = lifecycle
+        playlist.nextVideo()?.let {
+            loadVideo(lifecycle, it)
         }
     }
 
@@ -137,6 +164,6 @@ class YoutubePlayerService : Service(), CoroutineScope {
     companion object {
         const val ACTION_STOP_FOREGROUND = "${BuildConfig.APPLICATION_ID}.stopforeground"
         val MEDIA_TAG: String = MusicPlayerService::class.java.simpleName
-        const val DEBUG_TAG = "YTServiceDebug"
+        const val TAG = "YTServiceDebug"
     }
 }
