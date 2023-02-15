@@ -91,6 +91,9 @@ class MainActivity : AppCompatActivity() {
             mService = binder.getService()
             mBound = true
             mService.setPlayer(youTubePlayer)
+            mService.currentVideo.observe(this@MainActivity) {
+                loadVideoCover(it)
+            }
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
@@ -128,20 +131,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun createAndStartPlayList(videoIdsList: List<VideoItem>, pickedVideoId: VideoItem) {
-//        PlayList(videoIdsList, currentVideoId).nextVideoId?.let { video ->
-//            mService.loadVideo(lifecycle, video)
-//            loadVideoCover(video)
-//            startService(Intent(applicationContext, YoutubePlayerService::class.java))
-//        }
         // mBound = true when YT player is ready, and we can use it in service
         if (mBound) {
             val playList = PlayList(videoIdsList, pickedVideoId)
-            mService.loadPlaylist(lifecycle, playList)
-            loadVideoCover(playList.currentVideo)
+            mService.loadPlaylist(playList)
             startService(Intent(applicationContext, YoutubePlayerService::class.java))
-//            mService.loadVideo(lifecycle, currentVideoId)
-//            loadVideoCover(currentVideoId)
-//            startService(Intent(applicationContext, YoutubePlayerService::class.java))
         }
     }
 }

@@ -8,7 +8,8 @@ import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
 import android.util.Log
 import android.view.KeyEvent
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.media.session.MediaButtonReceiver
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.BuildConfig
@@ -19,7 +20,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstan
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.loadOrCueVideo
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -38,9 +38,16 @@ class YoutubePlayerService : Service(), CoroutineScope {
     private lateinit var notificationManager: MediaNotificationManager
 
     private var player: YouTubePlayer? = null
-    private lateinit var lifecycle: Lifecycle
+
+    // Current loaded video and playlist
     private var currentVideoItem: VideoItem? = null
     private var currentPlaylist: PlayList? = null
+
+    // Livedata for updating UI in nowPlaying
+    private val _currentVideo: MutableLiveData<VideoItem> = MutableLiveData()
+    var currentVideo: LiveData<VideoItem> = _currentVideo
+
+    // Player state change listener
     private val listener = object : AbstractYouTubePlayerListener() {
         override fun onStateChange(
             youTubePlayer: YouTubePlayer,
@@ -98,13 +105,13 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     private fun prev() {
         currentPlaylist?.prevVideo()?.let {
-            loadVideo(lifecycle, it)
+            loadVideo(it)
         }
     }
 
     private fun next() {
         currentPlaylist?.nextVideo()?.let {
-            loadVideo(lifecycle, it)
+            loadVideo(it)
         }
     }
 
@@ -120,17 +127,17 @@ class YoutubePlayerService : Service(), CoroutineScope {
         }
     }
 
-    fun loadPlaylist(lifecycle: Lifecycle, playlist: PlayList) {
+    fun loadPlaylist(playlist: PlayList) {
         currentPlaylist = playlist
-        this.lifecycle = lifecycle
         playlist.nextVideo()?.let {
-            loadVideo(lifecycle, it)
+            loadVideo(it)
         }
     }
 
-    fun loadVideo(lifecycle: Lifecycle, video: VideoItem) {
+    fun loadVideo(video: VideoItem) {
         currentVideoItem = video
-        player?.loadOrCueVideo(lifecycle, video.videoId, 0f)
+        _currentVideo.postValue(video)
+        player?.loadVideo(video.videoId, 0f)
     }
 
     @Suppress("DEPRECATION")
