@@ -103,13 +103,13 @@ class YoutubePlayerService : Service(), CoroutineScope {
         return START_STICKY
     }
 
-    private fun prev() {
+    fun prev() {
         currentPlaylist?.prevVideo()?.let {
             loadVideo(it)
         }
     }
 
-    private fun next() {
+    fun next() {
         currentPlaylist?.nextVideo()?.let {
             loadVideo(it)
         }
@@ -134,7 +134,7 @@ class YoutubePlayerService : Service(), CoroutineScope {
         }
     }
 
-    fun loadVideo(video: VideoItem) {
+    private fun loadVideo(video: VideoItem) {
         currentVideoItem = video
         _currentVideo.postValue(video)
         player?.loadVideo(video.videoId, 0f)

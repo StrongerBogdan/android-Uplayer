@@ -72,8 +72,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        unbindService(connection)
-        mBound = false
+        if (mBound) {
+            unbindService(connection)
+            mBound = false
+        }
     }
 
     override fun onDestroy() {
@@ -94,6 +96,10 @@ class MainActivity : AppCompatActivity() {
             mService.currentVideo.observe(this@MainActivity) {
                 loadVideoCover(it)
             }
+
+            // Next/Previous button
+            binding.nowPlaying.nextButton.setOnClickListener { mService.next() }
+            binding.nowPlaying.prevButton.setOnClickListener { mService.prev() }
         }
 
         override fun onServiceDisconnected(className: ComponentName) {

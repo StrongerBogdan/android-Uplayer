@@ -37,7 +37,8 @@ class SearchResultFragment : Fragment(R.layout.fragment_search) {
         val layoutManager: RecyclerView.LayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         recyclerAdapter = SearchListRecyclerViewAdapter {
-            (activity as MainActivity).loadVideoCover(it)
+//            (activity as MainActivity).loadVideoCover(it)
+            (activity as MainActivity).createAndStartPlayList(recyclerAdapter.currentList, it)
         }
         val recyclerView = binding.searchRecycler
         recyclerView.adapter = recyclerAdapter
