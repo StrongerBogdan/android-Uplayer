@@ -11,7 +11,7 @@ class ChartsFirstViewHolder(private val binding: RecyclerItemChartsBinding) :
 
     fun bind(videoItem: VideoItem) {
         binding.chartVideoName.text = videoItem.title
-        binding.chartAuthorName.text = videoItem.author
+        binding.chartAuthorName.text = videoItem.author.uppercase()
         Glide.with(binding.root.context)
             .load(videoItem.imageUrl)
             .override(Constants.CHARTS_IMG_WIDTH, Constants.CHARTS_IMG_HEIGHT)
