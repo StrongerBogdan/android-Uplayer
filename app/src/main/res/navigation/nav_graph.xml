@@ -7,16 +7,17 @@
 
     <fragment
         android:id="@+id/musicFragment"
-        android:name="com.bogdanmurzin.uplayer.ui.fragment.MusicFragment"
+        android:name="com.bogdanmurzin.uplayer.ui.charts.ChartsFragment"
         android:label="fragment_music"
-        tools:layout="@layout/fragment_music" />
+        tools:layout="@layout/fragment_charts" >
+        <action
+            android:id="@+id/action_musicFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
+    </fragment>
 
-    <action
-        android:id="@+id/action_global_searchResultFragment"
-        app:destination="@id/searchResultFragment" />
     <fragment
         android:id="@+id/searchResultFragment"
-        android:name="com.bogdanmurzin.uplayer.ui.fragment.SearchResultFragment"
+        android:name="com.bogdanmurzin.uplayer.ui.serach.SearchResultFragment"
         android:label="SearchResultFragment" >
         <argument
             android:name="query"
@@ -24,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/localMusicFragment"
-        android:name="com.bogdanmurzin.uplayer.ui.fragment.LocalMusicFragment"
+        android:name="com.bogdanmurzin.uplayer.ui.local_music.LocalMusicFragment"
         android:label="LocalMusicFragment" />
 
 </navigation>

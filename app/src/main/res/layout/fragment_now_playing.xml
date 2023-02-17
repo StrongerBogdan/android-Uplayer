@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:background="@color/dark_gray">
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBar
+        android:id="@+id/seekbar"
+        style="@style/MySeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/seek_bar_height"
+        app:color="@color/white"
+        app:fontSize="0sp" />
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:autoPlay="true"
+        app:enableAutomaticInitialization="false"
+        app:videoId="S0Q4gqBUs7c" />
+
+    <!-- Video Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- the album's cover + actions -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/now_playing_cover"
+            android:layout_width="@dimen/play_now_cover_width"
+            android:layout_height="@dimen/play_now_cover_height"
+            tools:background="@color/dark_gray">
+
+            <!-- Video Preview Image -->
+            <ImageView
+                android:id="@+id/video_preview"
+                android:layout_width="@dimen/play_now_cover_image_size"
+                android:layout_height="@dimen/play_now_cover_image_size"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/preview"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@color/purple_200" />
+
+            <!-- Video Name -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/video_name"
+                style="@style/Text.CaptionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/cover_video_text_margin_start"
+                android:layout_marginTop="@dimen/cover_video_text_margin_top"
+                android:gravity="start"
+                android:textSize="@dimen/cover_video_text_size"
+                app:layout_constraintStart_toEndOf="@id/video_preview"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Chaff and Dust" />
+
+            <!-- Author Name -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/author_name"
+                style="@style/Text.SubtitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/cover_author_margin_bottom"
+
+                android:gravity="start"
+                android:textSize="@dimen/cover_author_text_size"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/video_name"
+                app:layout_constraintTop_toBottomOf="@id/video_name"
+                tools:text="HYONNA" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Previous Button -->
+        <ImageButton
+            android:id="@+id/prev_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/previous"
+            android:src="@drawable/previous" />
+
+        <!-- Play/Pause Button -->
+        <ImageButton
+            android:id="@+id/play_pause_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/play"
+            android:src="@drawable/pause_icon" />
+
+        <!-- Next Button -->
+        <ImageButton
+            android:id="@+id/next_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/next"
+            android:src="@drawable/next_icon" />
+    </LinearLayout>
+</LinearLayout>

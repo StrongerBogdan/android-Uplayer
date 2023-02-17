@@ -83,4 +83,14 @@ dependencies {
     // Mdeia
     implementation "androidx.media:media:1.6.0"
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    //Media3
+    implementation "androidx.media3:media3-exoplayer:$media3_version"
+    implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
+    implementation "androidx.media3:media3-exoplayer-hls:$media3_version"
+    implementation "androidx.media3:media3-exoplayer-rtsp:$media3_version"
+    implementation "androidx.media3:media3-ui:$media3_version"
+    implementation "androidx.media3:media3-session:$media3_version"
+    implementation "androidx.media3:media3-cast:$media3_version"
+    // ViewBinding reflection-free flavor
+    implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$view_binding_version"
 }

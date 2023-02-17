@@ -3,9 +3,10 @@
     <string name="music">Музика</string>
     <string name="Files">Файли</string>
     <string name="search">Пошук</string>
-    <string name="previous">previous</string>
-    <string name="play_pause">play/pause</string>
-    <string name="next">next</string>
+    <string name="play">Грати</string>
+    <string name="pause">Пауза</string>
+    <string name="next">Наступне</string>
+    <string name="previous">Попередній</string>
     <string name="preview">Video image</string>
     <string name="top_100_ukr_music">Топ-100 Українські пісні</string>
     <string name="top_10_ukr_music">Топ-10 Українські пісні</string>
