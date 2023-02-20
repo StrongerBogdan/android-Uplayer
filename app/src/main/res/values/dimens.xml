@@ -50,4 +50,13 @@
     <dimen name="recycler_list_item_author_margin_start">26dp</dimen>
     <dimen name="recycler_list_item_author_margin_top">1dp</dimen>
     <dimen name="recycler_list_item_author_text_size">13sp</dimen>
+    <dimen name="player_height">222dp</dimen>
+    <dimen name="player_header_text_size">16sp</dimen>
+    <dimen name="minimize_btn_merge_start">28dp</dimen>
+    <dimen name="player_video_text_size">25sp</dimen>
+    <dimen name="player_video_title_margin_top">38dp</dimen>
+    <dimen name="player_video_author_margin_top">5dp</dimen>
+    <dimen name="player_video_author_text_size">17sp</dimen>
+    <dimen name="player_controls_height">50dp</dimen>
+    <dimen name="player_controls_padding">25dp</dimen>
 </resources>
