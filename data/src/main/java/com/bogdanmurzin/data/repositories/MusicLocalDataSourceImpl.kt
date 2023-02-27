@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import com.bogdanmurzin.domain.entities.LocalMusic
 import javax.inject.Inject
 
+
 class MusicLocalDataSourceImpl @Inject constructor(private val contentResolver: ContentResolver) :
     MusicLocalDataSource {
 
@@ -20,13 +21,13 @@ class MusicLocalDataSourceImpl @Inject constructor(private val contentResolver: 
             val titleColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)
             val idColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media._ID)
             val artistColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)
-            val idAlbum = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
+            val idAlbumColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)
             //add songs to list
             do {
                 val thisId = musicCursor.getLong(idColumn)
                 val thisTitle = musicCursor.getString(titleColumn)
                 val thisArtist = musicCursor.getString(artistColumn)
-                val albumArt = getAlbumArt(idAlbum)
+                val albumArt = getAlbumArt(musicCursor.getLong(idAlbumColumn))
                 songList.add(LocalMusic(thisId, thisTitle, thisArtist, albumArt))
             } while (musicCursor.moveToNext())
         }
@@ -36,27 +37,11 @@ class MusicLocalDataSourceImpl @Inject constructor(private val contentResolver: 
         return songList
     }
 
-    private fun getAlbumArt(albumId: Int): String? {
-        val projection = arrayOf(MediaStore.Audio.Albums.ALBUM_ART)
-        val selection = "${MediaStore.Audio.Albums._ID} = ?"
-        val selectionArgs = arrayOf(albumId.toString())
+    private fun getAlbumArt(albumId: Long): String {
+        return URI_ALBUM_ART + albumId
+    }
 
-        val cursor = contentResolver.query(
-            MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-            projection,
-            selection,
-            selectionArgs,
-            null
-        )
-
-        var albumArtUri : String? = null
-
-        cursor?.use {
-            if (it.moveToFirst()) {
-                albumArtUri = it.getString(0)
-            }
-        }
-
-        return albumArtUri
+    companion object {
+        const val URI_ALBUM_ART = "content://media/external/audio/albumart"
     }
 }

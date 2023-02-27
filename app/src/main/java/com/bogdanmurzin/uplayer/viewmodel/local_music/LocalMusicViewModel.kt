@@ -22,7 +22,6 @@ class LocalMusicViewModel @Inject constructor(
     var musicList: LiveData<List<LocalMusic>> = _musicList
 
     fun fetchLocalMusic() = viewModelScope.launch(coroutineDispatcherProvider.io()) {
-        _musicList.postValue(getMusicUseCase.invoke())
-        Log.d("TAGGY", "${musicList.value}")
+        _musicList.postValue(getMusicUseCase.invoke().also { Log.d("TAGGY", "fetchLocalMusic: $it") })
     }
 }

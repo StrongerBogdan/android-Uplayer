@@ -46,6 +46,19 @@ class LocalMusicFragment : Fragment() {
             )
         } else {
             // Permission is already granted
+
+            viewModel.musicList.observe(viewLifecycleOwner) {
+                if (it.isNotEmpty()) {
+//                    binding.ivText.visibility = View.VISIBLE
+//                    Glide.with(binding.root.context)
+//                        .load(it[1].albumArtUri)
+//                        .override(Constants.CHARTS_IMG_WIDTH, Constants.CHARTS_IMG_HEIGHT)
+//                        .centerCrop()
+//                        .error(R.drawable.no_item_icon)
+//                        .into(binding.ivText)
+                }
+            }
+
             // query audio files here
             viewModel.fetchLocalMusic()
         }
