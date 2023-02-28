@@ -42,6 +42,6 @@ class MusicLocalDataSourceImpl @Inject constructor(private val contentResolver: 
     }
 
     companion object {
-        const val URI_ALBUM_ART = "content://media/external/audio/albumart"
+        const val URI_ALBUM_ART = "content://media/external/audio/albumart/"
     }
 }
