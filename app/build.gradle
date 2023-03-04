@@ -93,4 +93,6 @@ dependencies {
     implementation "androidx.media3:media3-cast:$media3_version"
     // ViewBinding reflection-free flavor
     implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$view_binding_version"
+    // EasyPermissions-ktx
+    implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
 }

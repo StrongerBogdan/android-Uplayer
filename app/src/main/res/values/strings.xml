@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Uplayer</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="music">Музика</string>
     <string name="Files">Файли</string>
     <string name="search">Пошук</string>
@@ -15,4 +17,5 @@
     <string name="pmx_request_dialog_title">Потрібен дозвіл</string>
     <string name="pmx_btn_request_accept">Надати дозвіл</string>
     <string name="pmx_default_description">Щоб продовжити, надайте доступ до дозволів, запропонованих на наступному екрані. Це необхідно для нормальної роботи програми.</string>
+<!--    <string name="returned_from_app_settings_to_activity">Щоб продовжити, надайте доступ до дозволів, запропонованих на наступному екрані. Це необхідно для нормальної роботи програми.</string>-->
 </resources>
