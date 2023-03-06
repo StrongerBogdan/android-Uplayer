@@ -30,9 +30,7 @@ class LocalMusicFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private val viewModel by viewModels<LocalMusicViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentLocalMusicBinding.inflate(layoutInflater)
         return binding.root
@@ -79,10 +77,12 @@ class LocalMusicFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             //TODO on recycler item clicked
 //            (activity as MainActivity).createAndStartPlayList(recyclerAdapter.currentList, it)
         }
-        val recyclerView = binding.localMusicRecycler
-        recyclerView.adapter = recyclerAdapter
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setDivider(R.drawable.line_divider)
+
+        with(binding.localMusicRecycler) {
+            adapter = recyclerAdapter
+            this.layoutManager = layoutManager
+            setDivider(R.drawable.line_divider)
+        }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
