@@ -2,7 +2,8 @@ package com.bogdanmurzin.domain.entities
 
 data class LocalMusic(
     val id: Long,
-    val title: String,
-    val author: String,
-    val albumArtUri: String
-)
+    override val title: String,
+    override val author: String,
+    override val coverArtUri: String
+) : Music()
+

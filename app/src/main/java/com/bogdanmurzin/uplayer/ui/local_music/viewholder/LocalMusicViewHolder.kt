@@ -14,7 +14,7 @@ class LocalMusicViewHolder(private val binding: RecyclerItemListBinding) :
         binding.videoName.text = localMusic.title
         binding.authorName.text = localMusic.author
         GlideApp.with(binding.root.context)
-            .load(localMusic.albumArtUri)
+            .load(localMusic.coverArtUri)
             .error(R.drawable.no_item_icon)
             .override(Constants.CHARTS_IMG_WIDTH, Constants.CHARTS_IMG_HEIGHT)
             .centerCrop()

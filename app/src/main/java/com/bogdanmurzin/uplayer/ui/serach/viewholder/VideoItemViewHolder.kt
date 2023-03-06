@@ -13,7 +13,7 @@ class VideoItemViewHolder(private val binding: RecyclerItemListBinding) :
         binding.videoName.text = videoItem.title
         binding.authorName.text = videoItem.author
         Glide.with(binding.root.context)
-            .load(videoItem.imageUrl)
+            .load(videoItem.coverArtUri)
             .override(Constants.CHARTS_IMG_WIDTH, Constants.CHARTS_IMG_HEIGHT)
             .centerCrop()
             .into(binding.listImageView)

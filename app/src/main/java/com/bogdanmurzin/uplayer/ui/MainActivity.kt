@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             videoName.text = currentVideo.title
             authorName.text = currentVideo.author
             Glide.with(binding.root.context)
-                .load(currentVideo.imageUrl)
+                .load(currentVideo.coverArtUri)
                 .override(Constants.CHARTS_IMG_WIDTH, Constants.CHARTS_IMG_HEIGHT)
                 .centerCrop()
                 .into(videoPreview)

@@ -98,7 +98,7 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
             .setContentIntent(createContentIntent()) // Pending intent that is fired when user clicks on notification.
             .setContentTitle(videoData.title) // Title - Usually Song name.
             .setContentText(videoData.author)// Subtitle - Usually Artist name.
-            .setLargeIcon(getBitmap(videoData.imageUrl))
+            .setLargeIcon(getBitmap(videoData.coverArtUri))
             .setStyle(
                 MediaStyle()
                     .setShowActionsInCompactView(0, 1, 2)

@@ -14,7 +14,7 @@ class VideoItemDiffUtil : DiffUtil.ItemCallback<VideoItem>() {
     ): Boolean {
         return oldItem.title == newItem.title &&
                 oldItem.author == newItem.author &&
-                oldItem.imageUrl == newItem.imageUrl &&
+                oldItem.coverArtUri == newItem.coverArtUri &&
                 oldItem.videoId == newItem.videoId
     }
 }

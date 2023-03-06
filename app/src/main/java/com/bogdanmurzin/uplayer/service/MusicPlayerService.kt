@@ -122,7 +122,7 @@ class MusicPlayerService : Service(), CoroutineScope {
             .setSmallIcon(R.drawable.no_item_icon)
             .setContentTitle(currentVideoItem.title)
             .setContentText(currentVideoItem.author)
-            .setLargeIcon(getBitmap(currentVideoItem.imageUrl))
+            .setLargeIcon(getBitmap(currentVideoItem.coverArtUri))
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle())
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .addAction(

@@ -15,6 +15,6 @@ class LocalMusicDiffUtil : DiffUtil.ItemCallback<LocalMusic>() {
         return oldItem.title == newItem.title &&
                 oldItem.author == newItem.author &&
                 oldItem.id == newItem.id &&
-                oldItem.albumArtUri == newItem.albumArtUri
+                oldItem.coverArtUri == newItem.coverArtUri
     }
 }

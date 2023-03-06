@@ -13,7 +13,7 @@ class ChartsSecondViewHolder(private val binding: RecyclerItemSecondChartsBindin
         binding.secondChartVideoName.text = videoItem.title
         binding.secondChartAuthor.text = videoItem.author.uppercase()
         Glide.with(binding.root.context)
-            .load(videoItem.imageUrl)
+            .load(videoItem.coverArtUri)
             .override(Constants.SECOND_CHARTS_IMG_WIDTH, Constants.SECOND_CHARTS_IMG_HEIGHT)
             .centerCrop()
             .into(binding.secondChartImageView)
