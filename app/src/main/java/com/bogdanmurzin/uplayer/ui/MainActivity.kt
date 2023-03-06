@@ -10,6 +10,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.bogdanmurzin.domain.entities.Music
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
@@ -25,7 +26,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFram
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBarListener
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         youTubePlayerView.enableBackgroundPlayback(true)
     }
 
-    fun createAndStartPlayList(videoIdsList: List<VideoItem>, pickedVideoId: VideoItem) {
+    fun createAndStartPlayList(videoIdsList: List<Music>, pickedVideoId: Music) {
         // mBound = true when YT player is ready, and we can use it in service
         if (mBound) {
             val playList = PlayList(videoIdsList, pickedVideoId)

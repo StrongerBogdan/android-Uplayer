@@ -14,6 +14,7 @@ import androidx.media.session.MediaButtonReceiver
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
+import com.bogdanmurzin.uplayer.model.VideoPlayer
 import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
@@ -37,11 +38,7 @@ class YoutubePlayerService : Service(), CoroutineScope {
     private val binder = LocalBinder()
     private lateinit var notificationManager: MediaNotificationManager
 
-    private var player: YouTubePlayer? = null
-
-    // Current loaded video and playlist
-    private var currentVideoItem: VideoItem? = null
-    private var currentPlaylist: PlayList? = null
+    private var mPlayer: VideoPlayer? = null
 
     // Livedata for updating UI in nowPlaying
     private val _currentVideo: MutableLiveData<VideoItem> = MutableLiveData()
@@ -77,9 +74,9 @@ class YoutubePlayerService : Service(), CoroutineScope {
     }
 
     fun setPlayer(youTubePlayer: YouTubePlayer) {
-        player = youTubePlayer
         youTubePlayer.addListener(listener)
         youTubePlayer.addListener(playbackState)
+        mPlayer = VideoPlayer(youTubePlayer)
     }
 
     @Suppress("DEPRECATION")
@@ -104,20 +101,20 @@ class YoutubePlayerService : Service(), CoroutineScope {
     }
 
     fun prev() {
-        currentPlaylist?.prevVideo()?.let {
-            loadVideo(it)
+        mPlayer?.prev()?.let {
+            _currentVideo.postValue(it)
         }
     }
 
     fun next() {
-        currentPlaylist?.nextVideo()?.let {
-            loadVideo(it)
+        mPlayer?.next()?.let {
+            _currentVideo.postValue(it)
         }
     }
 
     private fun startService() {
         serviceScope.launch {
-            currentVideoItem?.let {
+            currentVideo.value?.let {
                 val notification = notificationManager.getNotification(
                     it,
                     playbackState.state
@@ -128,16 +125,7 @@ class YoutubePlayerService : Service(), CoroutineScope {
     }
 
     fun loadPlaylist(playlist: PlayList) {
-        currentPlaylist = playlist
-        playlist.nextVideo()?.let {
-            loadVideo(it)
-        }
-    }
-
-    private fun loadVideo(video: VideoItem) {
-        currentVideoItem = video
-        _currentVideo.postValue(video)
-        player?.loadVideo(video.videoId, 0f)
+        _currentVideo.postValue(mPlayer?.loadPlaylist(playlist))
     }
 
     @Suppress("DEPRECATION")
@@ -156,11 +144,11 @@ class YoutubePlayerService : Service(), CoroutineScope {
     }
 
     private fun play() {
-        player?.play()
+        mPlayer?.play()
     }
 
     private fun pause() {
-        player?.pause()
+        mPlayer?.pause()
     }
 
     inner class LocalBinder : Binder() {
