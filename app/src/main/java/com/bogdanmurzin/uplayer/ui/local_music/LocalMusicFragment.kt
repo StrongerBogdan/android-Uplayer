@@ -1,14 +1,11 @@
 package com.bogdanmurzin.uplayer.ui.local_music
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +18,6 @@ import com.bogdanmurzin.uplayer.ui.local_music.adapter.LocalMusicRecyclerViewAda
 import com.bogdanmurzin.uplayer.util.extension.RecyclerViewExtension.setDivider
 import com.bogdanmurzin.uplayer.viewmodel.local_music.LocalMusicViewModel
 import com.vmadalin.easypermissions.EasyPermissions
-import com.vmadalin.easypermissions.dialogs.DEFAULT_SETTINGS_REQ_CODE
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -95,8 +91,13 @@ class LocalMusicFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
         // This will display a dialog directing them to enable the permission in app settings.
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            SettingsDialog.Builder(requireActivity()).build().show()
-//
+            with(SettingsDialog.Builder(requireActivity())) {
+                rationale(R.string.pmx_to_settings_description)
+                title(R.string.pmx_request_dialog_title)
+                positiveButtonText(R.string.pmx_btn_request_accept)
+                negativeButtonText(R.string.cancel)
+                build()
+            }.show()
 
         } else {
             // Do not have permissions, request them now
@@ -123,18 +124,5 @@ class LocalMusicFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         Log.i(TAG, "onRequestPermissionsResult: ${grantResults[0]}")
         // EasyPermissions handles the request result.
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == DEFAULT_SETTINGS_REQ_CODE) {
-
-            // Do something after user returned from app settings screen, like showing a Toast.
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.pmx_default_description),
-                LENGTH_LONG
-            ).show()
-        }
     }
 }
