@@ -68,7 +68,7 @@ class YoutubePlayerService : Service(), CoroutineScope {
                 state == PlayerConstants.PlayerState.PLAYING ||
                 state == PlayerConstants.PlayerState.ENDED
             ) {
-                Log.i(TAG, "onStateChange: $state")
+                Log.i(TAG, "onStateChange: music ${music.title}, state $state")
                 val isPlaying = state == PlayerConstants.PlayerState.PLAYING
                 _playingState.postValue(isPlaying)
                 startService(music, isPlaying)
