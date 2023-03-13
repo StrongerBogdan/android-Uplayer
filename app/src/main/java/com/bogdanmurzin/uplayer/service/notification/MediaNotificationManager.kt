@@ -17,13 +17,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import androidx.media.session.MediaButtonReceiver
-import com.bogdanmurzin.domain.entities.VideoItem
+import com.bogdanmurzin.domain.entities.Music
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
+import com.bogdanmurzin.uplayer.common.GlideApp
 import com.bogdanmurzin.uplayer.service.YoutubePlayerService
 import com.bogdanmurzin.uplayer.ui.MainActivity
-import com.bumptech.glide.Glide
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import java.util.concurrent.ExecutionException
 
 
 class MediaNotificationManager(private val service: YoutubePlayerService) {
@@ -75,17 +75,17 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
     }
 
     fun getNotification(
-        videoData: VideoItem,
-        state: PlayerConstants.PlayerState
+        data: Music,
+        isPlaying: Boolean
     ): Notification {
         val builder: NotificationCompat.Builder =
-            buildNotification(state, videoData)
+            buildNotification(isPlaying, data)
         return builder.build()
     }
 
     private fun buildNotification(
-        state: PlayerConstants.PlayerState,
-        videoData: VideoItem
+        isPlaying: Boolean,
+        data: Music
     ): NotificationCompat.Builder {
 
         // Create the (mandatory) notification channel when running on Android Oreo.
@@ -96,9 +96,9 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
             .setColor(ContextCompat.getColor(service, R.color.gray))
             .setSmallIcon(R.drawable.no_item_icon)
             .setContentIntent(createContentIntent()) // Pending intent that is fired when user clicks on notification.
-            .setContentTitle(videoData.title) // Title - Usually Song name.
-            .setContentText(videoData.author)// Subtitle - Usually Artist name.
-            .setLargeIcon(getBitmap(videoData.coverArtUri))
+            .setContentTitle(data.title) // Title - Usually Song name.
+            .setContentText(data.author)// Subtitle - Usually Artist name.
+            .setLargeIcon(getBitmap(data.coverArtUri))
             .setStyle(
                 MediaStyle()
                     .setShowActionsInCompactView(0, 1, 2)
@@ -107,7 +107,7 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
         builder.addAction(mPrevAction)
-        builder.addAction(if (state == PlayerConstants.PlayerState.PAUSED) mPlayAction else mPauseAction)
+        builder.addAction(if (isPlaying) mPauseAction else mPlayAction)
         builder.addAction(mNextAction)
         return builder
     }
@@ -151,7 +151,21 @@ class MediaNotificationManager(private val service: YoutubePlayerService) {
     }
 
     private fun getBitmap(imageUrl: String): Bitmap {
-        return Glide.with(service).asBitmap().load(imageUrl).submit(64, 64).get()
+        return try {
+            GlideApp.with(service)
+                .asBitmap()
+                .load(imageUrl)
+                .error(R.drawable.no_item_icon)
+                .submit(64, 64)
+                .get()
+        } catch (e: ExecutionException) {
+            Log.i(TAG, "getBitmap: Failed to load resource")
+            GlideApp.with(service)
+                .asBitmap()
+                .load(R.drawable.no_item_icon)
+                .submit(64, 64)
+                .get()
+        }
     }
 
     companion object {

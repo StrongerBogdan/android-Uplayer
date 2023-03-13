@@ -2,6 +2,8 @@ package com.bogdanmurzin.uplayer.service
 
 import android.app.Service
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -11,15 +13,13 @@ import android.view.KeyEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.media.session.MediaButtonReceiver
-import com.bogdanmurzin.domain.entities.VideoItem
+import com.bogdanmurzin.domain.entities.Music
 import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
-import com.bogdanmurzin.uplayer.model.VideoPlayer
+import com.bogdanmurzin.uplayer.common.PlayerConstants
+import com.bogdanmurzin.uplayer.model.*
 import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -38,19 +38,29 @@ class YoutubePlayerService : Service(), CoroutineScope {
     private val binder = LocalBinder()
     private lateinit var notificationManager: MediaNotificationManager
 
-    private var mPlayer: VideoPlayer? = null
+    private var mPlayer: Player? = null
+
+    private val mediaPlayer = MediaPlayer().apply {
+        setAudioAttributes(
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build()
+        )
+    }
 
     // Livedata for updating UI in nowPlaying
-    private val _currentVideo: MutableLiveData<VideoItem> = MutableLiveData()
-    var currentVideo: LiveData<VideoItem> = _currentVideo
+    private val _currentVideo: MutableLiveData<Music> = MutableLiveData()
+    var currentVideo: LiveData<Music> = _currentVideo
+    private val _playingState: MutableLiveData<Boolean> = MutableLiveData()
+    var playingState: LiveData<Boolean> = _playingState
 
     // Player state change listener
-    private val listener = object : AbstractYouTubePlayerListener() {
+    private val listener = object : CustomPlayerListener {
         override fun onStateChange(
-            youTubePlayer: YouTubePlayer,
+            music: Music,
             state: PlayerConstants.PlayerState
         ) {
-            super.onStateChange(youTubePlayer, state)
             if (state == PlayerConstants.PlayerState.ENDED) {
                 next()
             }
@@ -59,7 +69,9 @@ class YoutubePlayerService : Service(), CoroutineScope {
                 state == PlayerConstants.PlayerState.ENDED
             ) {
                 Log.i(TAG, "onStateChange: $state")
-                startService()
+                val isPlaying = state == PlayerConstants.PlayerState.PLAYING
+                _playingState.postValue(isPlaying)
+                startService(music, isPlaying)
             }
         }
     }
@@ -73,10 +85,18 @@ class YoutubePlayerService : Service(), CoroutineScope {
         return binder
     }
 
-    fun setPlayer(youTubePlayer: YouTubePlayer) {
-        youTubePlayer.addListener(listener)
-        youTubePlayer.addListener(playbackState)
-        mPlayer = VideoPlayer(youTubePlayer)
+    fun setPlayer(playerType: PlayerType) {
+        if (mPlayer != null) mPlayer?.pause()
+        mPlayer = when (playerType) {
+            is PlayerType.YTPlayer -> {
+                // TODO MB redundant line below
+                playerType.youtubePlayer.addListener(playbackState)
+                VideoPlayer(playerType.youtubePlayer)
+            }
+            is PlayerType.LocalPlayer -> AudioPlayer(mediaPlayer, this.applicationContext)
+        }
+        mPlayer?.addListener(listener)
+
     }
 
     @Suppress("DEPRECATION")
@@ -94,7 +114,6 @@ class YoutubePlayerService : Service(), CoroutineScope {
                     KeyEvent.KEYCODE_MEDIA_PLAY -> play().also { Log.i(TAG, "keyEvent play") }
                     KeyEvent.KEYCODE_MEDIA_PAUSE -> pause().also { Log.i(TAG, "keyEvent pause") }
                 }
-                startService()
             }
         }
         return START_STICKY
@@ -112,20 +131,17 @@ class YoutubePlayerService : Service(), CoroutineScope {
         }
     }
 
-    private fun startService() {
+    private fun startService(music: Music, isPlaying: Boolean) {
         serviceScope.launch {
-            currentVideo.value?.let {
-                val notification = notificationManager.getNotification(
-                    it,
-                    playbackState.state
-                )
-                startForeground(NOTIFICATION_MUSIC_ID, notification)
-            }
+            val notification = notificationManager.getNotification(music, isPlaying)
+            startForeground(NOTIFICATION_MUSIC_ID, notification)
         }
     }
 
     fun loadPlaylist(playlist: PlayList) {
-        _currentVideo.postValue(mPlayer?.loadPlaylist(playlist))
+        mPlayer?.let {
+            _currentVideo.postValue(it.loadPlaylist(playlist))
+        }
     }
 
     @Suppress("DEPRECATION")
@@ -149,6 +165,16 @@ class YoutubePlayerService : Service(), CoroutineScope {
 
     private fun pause() {
         mPlayer?.pause()
+    }
+
+    fun playPause() {
+        playingState.value?.let { isPlaying ->
+            if (isPlaying) {
+                pause()
+            } else {
+                play()
+            }
+        }
     }
 
     inner class LocalBinder : Binder() {
