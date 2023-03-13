@@ -7,15 +7,15 @@ class PlayList(private val musicList: List<Music>, pickedVideo: Music) {
     private var position = musicList.indexOf(pickedVideo)
 
     val currentMusic: Music
-        get() = musicList[position - 1]
+        get() = musicList[position]
 
-    fun nextMusic(): Music? {
-        if (position + 1 > musicList.size) return null
-        return musicList[position++]
-    }
+    fun nextMusic(): Music? =
+        if (hasNext()) musicList[++position] else null
 
-    fun prevMusic(): Music? {
-        if (position - 1 < 0) return null
-        return musicList[--position]
-    }
+    fun prevMusic(): Music? =
+        if (hasPrev()) musicList[--position] else null
+
+    private fun hasNext() = position < musicList.size - 1
+
+    private fun hasPrev() = position > 0
 }
