@@ -16,7 +16,7 @@ import androidx.media.session.MediaButtonReceiver
 import com.bogdanmurzin.domain.entities.Music
 import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
-import com.bogdanmurzin.uplayer.common.PlayerConstants
+import com.bogdanmurzin.uplayer.common.PlayerConstants.PlayerState
 import com.bogdanmurzin.uplayer.model.*
 import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
@@ -59,19 +59,16 @@ class YoutubePlayerService : Service(), CoroutineScope {
     private val listener = object : CustomPlayerListener {
         override fun onStateChange(
             music: Music,
-            state: PlayerConstants.PlayerState
+            state: PlayerState
         ) {
-            if (state == PlayerConstants.PlayerState.ENDED) {
-                next()
-            }
-            if (state == PlayerConstants.PlayerState.PAUSED ||
-                state == PlayerConstants.PlayerState.PLAYING ||
-                state == PlayerConstants.PlayerState.ENDED
-            ) {
-                Log.i(TAG, "onStateChange: music ${music.title}, state $state")
-                val isPlaying = state == PlayerConstants.PlayerState.PLAYING
-                _playingState.postValue(isPlaying)
-                startService(music, isPlaying)
+            when (state) {
+                PlayerState.ENDED -> next()
+                PlayerState.PAUSED, PlayerState.PLAYING -> {
+                    Log.i(TAG, "onStateChange: music ${music.title}, state $state")
+                    val isPlaying = state == PlayerState.PLAYING
+                    _playingState.postValue(isPlaying)
+                    startService(music, isPlaying)
+                }
             }
         }
     }
