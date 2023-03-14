@@ -1,6 +1,6 @@
 # android-Uplayer
 
-
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/StrongerBogdan/android-Uplayer?include_prereleases)
 
 
 ## Main screen and Search screen
