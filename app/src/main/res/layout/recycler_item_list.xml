@@ -15,6 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/RoundedImageView"
+        android:background="@color/dark_gray3"
         tools:src="@color/purple_200" />
 
     <!-- Video Name -->

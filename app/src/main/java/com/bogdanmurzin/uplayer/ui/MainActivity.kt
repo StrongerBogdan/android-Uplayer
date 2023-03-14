@@ -10,14 +10,14 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.bogdanmurzin.domain.entities.VideoItem
+import com.bogdanmurzin.domain.entities.Music
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.FragmentNowPlayingBinding
+import com.bogdanmurzin.uplayer.model.player.PlayerType
 import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.YoutubePlayerService
-import com.bogdanmurzin.uplayer.util.CustomYouTubePlayerListener
 import com.bumptech.glide.Glide
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
@@ -26,13 +26,13 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBarListener
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var youTubePlayerView: YouTubePlayerView
-    private lateinit var youTubePlayer: YouTubePlayer
+    lateinit var youTubePlayer: YouTubePlayer
+        private set
 
     // Service
     private lateinit var mService: YoutubePlayerService
@@ -57,13 +57,13 @@ class MainActivity : AppCompatActivity() {
 
     // Loads title, channelName and video image
     //TODO rework
-    fun loadVideoCover(currentVideo: VideoItem) {
+    fun loadVideoCover(currentVideo: Music) {
         binding.playNowFrame.visibility = View.VISIBLE
         with(binding.nowPlaying) {
             videoName.text = currentVideo.title
             authorName.text = currentVideo.author
             Glide.with(binding.root.context)
-                .load(currentVideo.imageUrl)
+                .load(currentVideo.coverArtUri)
                 .override(Constants.CHARTS_IMG_WIDTH, Constants.CHARTS_IMG_HEIGHT)
                 .centerCrop()
                 .into(videoPreview)
@@ -92,14 +92,21 @@ class MainActivity : AppCompatActivity() {
             val binder = service as YoutubePlayerService.LocalBinder
             mService = binder.getService()
             mBound = true
-            mService.setPlayer(youTubePlayer)
             mService.currentVideo.observe(this@MainActivity) {
                 loadVideoCover(it)
+            }
+            mService.playingState.observe(this@MainActivity) { isPlaying ->
+                if (isPlaying) {
+                    binding.nowPlaying.playPauseButton.setImageResource(R.drawable.pause_icon)
+                } else {
+                    binding.nowPlaying.playPauseButton.setImageResource(R.drawable.play_icon)
+                }
             }
 
             // Next/Previous button
             binding.nowPlaying.nextButton.setOnClickListener { mService.next() }
             binding.nowPlaying.prevButton.setOnClickListener { mService.prev() }
+            binding.nowPlaying.playPauseButton.setOnClickListener { mService.playPause() }
         }
 
         override fun onServiceDisconnected(className: ComponentName) {
@@ -108,16 +115,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initYouTubePlayerView() {
-        val customPlayerUi: FragmentNowPlayingBinding = binding.nowPlaying
-
         val listener = object : AbstractYouTubePlayerListener() {
 
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 this@MainActivity.youTubePlayer = youTubePlayer
-                // Create and add custom listener
-                val customPlayerUiController =
-                    CustomYouTubePlayerListener(customPlayerUi, youTubePlayer)
-                youTubePlayer.addListener(customPlayerUiController)
                 // Create and add seek listener
                 val seekBar = binding.nowPlaying.seekbar
                 seekBar.youtubePlayerSeekBarListener = object : YouTubePlayerSeekBarListener {
@@ -136,10 +137,16 @@ class MainActivity : AppCompatActivity() {
         youTubePlayerView.enableBackgroundPlayback(true)
     }
 
-    fun createAndStartPlayList(videoIdsList: List<VideoItem>, pickedVideoId: VideoItem) {
+    fun createAndStartPlayList(
+        videoIdsList: List<Music>,
+        pickedVideoId: Music,
+        playerType: PlayerType
+    ) {
         // mBound = true when YT player is ready, and we can use it in service
         if (mBound) {
             val playList = PlayList(videoIdsList, pickedVideoId)
+            if (playerType is PlayerType.YTPlayer) playerType.youtubePlayer = youTubePlayer
+            mService.setPlayer(playerType)
             mService.loadPlaylist(playList)
             startService(Intent(applicationContext, YoutubePlayerService::class.java))
         }

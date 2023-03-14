@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Uplayer</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cкасувати</string>
     <string name="music">Музика</string>
     <string name="Files">Файли</string>
     <string name="search">Пошук</string>
@@ -11,4 +13,9 @@
     <string name="top_100_ukr_music">Топ-100 Українські пісні</string>
     <string name="top_10_ukr_music">Топ-10 Українські пісні</string>
     <string name="Search">Пошук</string>
+
+    <string name="pmx_request_dialog_title">Потрібен дозвіл</string>
+    <string name="pmx_btn_request_accept">Надати дозвіл</string>
+    <string name="pmx_default_description">Щоб отримати локальні музичні файли, надайте програмі доступ до медіа.</string>
+    <string name="pmx_to_settings_description">Щоб продовжити, надайте доступ до медіа, запропонований на наступному екрані. Це необхідно для нормальної роботи програми.</string>
 </resources>

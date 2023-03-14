@@ -13,6 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.FragmentChartsBinding
+import com.bogdanmurzin.uplayer.model.player.PlayerType
 import com.bogdanmurzin.uplayer.model.event.Event
 import com.bogdanmurzin.uplayer.ui.MainActivity
 import com.bogdanmurzin.uplayer.ui.charts.adapter.ChartsRecyclerViewAdapter
@@ -65,7 +66,8 @@ class ChartsFragment : Fragment(R.layout.fragment_charts) {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerAdapter1 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.FIRST_CHART_VIEW_LAYOUT) {
-                (activity as MainActivity).createAndStartPlayList(recyclerAdapter1.currentList, it)
+                (activity as MainActivity)
+                    .createAndStartPlayList(recyclerAdapter1.currentList, it, PlayerType.YTPlayer())
             }
         val recyclerView = binding.recyclerCharts
         recyclerView.adapter = recyclerAdapter1
@@ -77,7 +79,8 @@ class ChartsFragment : Fragment(R.layout.fragment_charts) {
             GridLayoutManager(requireContext(), Constants.SPAN_COUNT)
         recyclerAdapter2 =
             ChartsRecyclerViewAdapter(ChartsRecyclerViewAdapter.SECOND_CHART_VIEW_LAYOUT) {
-                (activity as MainActivity).createAndStartPlayList(recyclerAdapter2.currentList, it)
+                (activity as MainActivity)
+                    .createAndStartPlayList(recyclerAdapter2.currentList, it, PlayerType.YTPlayer())
             }
         val recyclerView = binding.recyclerSecondCharts
         recyclerView.adapter = recyclerAdapter2

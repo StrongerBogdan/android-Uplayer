@@ -71,7 +71,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifeData_version"
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -93,4 +93,6 @@ dependencies {
     implementation "androidx.media3:media3-cast:$media3_version"
     // ViewBinding reflection-free flavor
     implementation "com.github.kirich1409:viewbindingpropertydelegate-noreflection:$view_binding_version"
+    // EasyPermissions-ktx
+    implementation 'com.vmadalin:easypermissions-ktx:1.0.0'
 }

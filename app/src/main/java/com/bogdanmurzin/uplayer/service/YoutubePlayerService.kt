@@ -2,6 +2,8 @@ package com.bogdanmurzin.uplayer.service
 
 import android.app.Service
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -11,14 +13,14 @@ import android.view.KeyEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.media.session.MediaButtonReceiver
-import com.bogdanmurzin.domain.entities.VideoItem
+import com.bogdanmurzin.domain.entities.Music
 import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
+import com.bogdanmurzin.uplayer.common.PlayerConstants.PlayerState
+import com.bogdanmurzin.uplayer.model.*
+import com.bogdanmurzin.uplayer.model.player.*
 import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -37,32 +39,37 @@ class YoutubePlayerService : Service(), CoroutineScope {
     private val binder = LocalBinder()
     private lateinit var notificationManager: MediaNotificationManager
 
-    private var player: YouTubePlayer? = null
+    private var mPlayer: Player? = null
 
-    // Current loaded video and playlist
-    private var currentVideoItem: VideoItem? = null
-    private var currentPlaylist: PlayList? = null
+    private val mediaPlayer = MediaPlayer().apply {
+        setAudioAttributes(
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build()
+        )
+    }
 
     // Livedata for updating UI in nowPlaying
-    private val _currentVideo: MutableLiveData<VideoItem> = MutableLiveData()
-    var currentVideo: LiveData<VideoItem> = _currentVideo
+    private val _currentVideo: MutableLiveData<Music> = MutableLiveData()
+    var currentVideo: LiveData<Music> = _currentVideo
+    private val _playingState: MutableLiveData<Boolean> = MutableLiveData()
+    var playingState: LiveData<Boolean> = _playingState
 
     // Player state change listener
-    private val listener = object : AbstractYouTubePlayerListener() {
+    private val listener = object : CustomPlayerListener {
         override fun onStateChange(
-            youTubePlayer: YouTubePlayer,
-            state: PlayerConstants.PlayerState
+            music: Music,
+            state: PlayerState
         ) {
-            super.onStateChange(youTubePlayer, state)
-            if (state == PlayerConstants.PlayerState.ENDED) {
-                next()
-            }
-            if (state == PlayerConstants.PlayerState.PAUSED ||
-                state == PlayerConstants.PlayerState.PLAYING ||
-                state == PlayerConstants.PlayerState.ENDED
-            ) {
-                Log.i(TAG, "onStateChange: $state")
-                startService()
+            when (state) {
+                PlayerState.ENDED -> next()
+                PlayerState.PAUSED, PlayerState.PLAYING -> {
+                    Log.i(TAG, "onStateChange: music ${music.title}, state $state")
+                    val isPlaying = state == PlayerState.PLAYING
+                    _playingState.postValue(isPlaying)
+                    startService(music, isPlaying)
+                }
             }
         }
     }
@@ -76,10 +83,18 @@ class YoutubePlayerService : Service(), CoroutineScope {
         return binder
     }
 
-    fun setPlayer(youTubePlayer: YouTubePlayer) {
-        player = youTubePlayer
-        youTubePlayer.addListener(listener)
-        youTubePlayer.addListener(playbackState)
+    fun setPlayer(playerType: PlayerType) {
+        if (mPlayer != null) mPlayer?.stop()
+        mPlayer = when (playerType) {
+            is PlayerType.YTPlayer -> {
+                // TODO MB redundant line below
+                playerType.youtubePlayer.addListener(playbackState)
+                VideoPlayer(playerType.youtubePlayer)
+            }
+            is PlayerType.LocalPlayer -> AudioPlayer(mediaPlayer, this.applicationContext)
+        }
+        mPlayer?.addListener(listener)
+
     }
 
     @Suppress("DEPRECATION")
@@ -97,47 +112,34 @@ class YoutubePlayerService : Service(), CoroutineScope {
                     KeyEvent.KEYCODE_MEDIA_PLAY -> play().also { Log.i(TAG, "keyEvent play") }
                     KeyEvent.KEYCODE_MEDIA_PAUSE -> pause().also { Log.i(TAG, "keyEvent pause") }
                 }
-                startService()
             }
         }
         return START_STICKY
     }
 
     fun prev() {
-        currentPlaylist?.prevVideo()?.let {
-            loadVideo(it)
+        mPlayer?.prev()?.let {
+            _currentVideo.postValue(it)
         }
     }
 
     fun next() {
-        currentPlaylist?.nextVideo()?.let {
-            loadVideo(it)
+        mPlayer?.next()?.let {
+            _currentVideo.postValue(it)
         }
     }
 
-    private fun startService() {
+    private fun startService(music: Music, isPlaying: Boolean) {
         serviceScope.launch {
-            currentVideoItem?.let {
-                val notification = notificationManager.getNotification(
-                    it,
-                    playbackState.state
-                )
-                startForeground(NOTIFICATION_MUSIC_ID, notification)
-            }
+            val notification = notificationManager.getNotification(music, isPlaying)
+            startForeground(NOTIFICATION_MUSIC_ID, notification)
         }
     }
 
     fun loadPlaylist(playlist: PlayList) {
-        currentPlaylist = playlist
-        playlist.nextVideo()?.let {
-            loadVideo(it)
+        mPlayer?.let {
+            _currentVideo.postValue(it.loadPlaylist(playlist))
         }
-    }
-
-    private fun loadVideo(video: VideoItem) {
-        currentVideoItem = video
-        _currentVideo.postValue(video)
-        player?.loadVideo(video.videoId, 0f)
     }
 
     @Suppress("DEPRECATION")
@@ -156,11 +158,21 @@ class YoutubePlayerService : Service(), CoroutineScope {
     }
 
     private fun play() {
-        player?.play()
+        mPlayer?.play()
     }
 
     private fun pause() {
-        player?.pause()
+        mPlayer?.pause()
+    }
+
+    fun playPause() {
+        playingState.value?.let { isPlaying ->
+            if (isPlaying) {
+                pause()
+            } else {
+                play()
+            }
+        }
     }
 
     inner class LocalBinder : Binder() {
