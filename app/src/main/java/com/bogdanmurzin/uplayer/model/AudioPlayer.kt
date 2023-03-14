@@ -70,6 +70,10 @@ class AudioPlayer(private val player: MediaPlayer, private val appContext: Conte
         return true
     }
 
+    override fun stop() {
+        player.pause()
+    }
+
     companion object {
         private val CONTENT_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
     }

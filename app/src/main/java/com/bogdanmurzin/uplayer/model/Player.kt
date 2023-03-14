@@ -10,5 +10,6 @@ interface Player {
     fun next(): Music?
     fun prev(): Music?
     fun loadPlaylist(playlist: PlayList): Music?
+    fun stop()
     fun addListener(listener: CustomPlayerListener): Boolean
 }

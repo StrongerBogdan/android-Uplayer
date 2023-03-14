@@ -86,7 +86,7 @@ class YoutubePlayerService : Service(), CoroutineScope {
     }
 
     fun setPlayer(playerType: PlayerType) {
-        if (mPlayer != null) mPlayer?.pause()
+        if (mPlayer != null) mPlayer?.stop()
         mPlayer = when (playerType) {
             is PlayerType.YTPlayer -> {
                 // TODO MB redundant line below

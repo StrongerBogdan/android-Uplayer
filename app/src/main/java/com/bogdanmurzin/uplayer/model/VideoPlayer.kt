@@ -62,6 +62,10 @@ class VideoPlayer(private val player: YouTubePlayer) : Player {
         return null
     }
 
+    override fun stop() {
+        player.pause()
+    }
+
     override fun addListener(listener: CustomPlayerListener): Boolean {
         this.listener = listener
         return true
