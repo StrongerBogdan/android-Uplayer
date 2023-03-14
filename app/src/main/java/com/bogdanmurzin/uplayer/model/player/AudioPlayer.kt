@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.model
+package com.bogdanmurzin.uplayer.model.player
 
 import android.content.ContentUris
 import android.content.Context

@@ -18,6 +18,7 @@ import com.bogdanmurzin.uplayer.BuildConfig
 import com.bogdanmurzin.uplayer.common.Constants.NOTIFICATION_MUSIC_ID
 import com.bogdanmurzin.uplayer.common.PlayerConstants.PlayerState
 import com.bogdanmurzin.uplayer.model.*
+import com.bogdanmurzin.uplayer.model.player.*
 import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.notification.MediaNotificationManager
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker

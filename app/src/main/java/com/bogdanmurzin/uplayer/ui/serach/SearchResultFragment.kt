@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.databinding.FragmentSearchBinding
-import com.bogdanmurzin.uplayer.model.PlayerType
+import com.bogdanmurzin.uplayer.model.player.PlayerType
 import com.bogdanmurzin.uplayer.ui.MainActivity
 import com.bogdanmurzin.uplayer.ui.serach.adapter.SearchListRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.util.extension.RecyclerViewExtension.setDivider

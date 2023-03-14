@@ -13,7 +13,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.FragmentChartsBinding
-import com.bogdanmurzin.uplayer.model.PlayerType
+import com.bogdanmurzin.uplayer.model.player.PlayerType
 import com.bogdanmurzin.uplayer.model.event.Event
 import com.bogdanmurzin.uplayer.ui.MainActivity
 import com.bogdanmurzin.uplayer.ui.charts.adapter.ChartsRecyclerViewAdapter

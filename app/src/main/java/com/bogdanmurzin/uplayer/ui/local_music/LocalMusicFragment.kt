@@ -14,7 +14,7 @@ import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants.PERMISSION_REQUEST_CODE
 import com.bogdanmurzin.uplayer.common.Constants.TAG
 import com.bogdanmurzin.uplayer.databinding.FragmentLocalMusicBinding
-import com.bogdanmurzin.uplayer.model.PlayerType
+import com.bogdanmurzin.uplayer.model.player.PlayerType
 import com.bogdanmurzin.uplayer.ui.MainActivity
 import com.bogdanmurzin.uplayer.ui.local_music.adapter.LocalMusicRecyclerViewAdapter
 import com.bogdanmurzin.uplayer.util.extension.RecyclerViewExtension.setDivider

@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.model
+package com.bogdanmurzin.uplayer.model.player
 
 import com.bogdanmurzin.domain.entities.VideoItem
 import com.bogdanmurzin.uplayer.common.PlayerConstants

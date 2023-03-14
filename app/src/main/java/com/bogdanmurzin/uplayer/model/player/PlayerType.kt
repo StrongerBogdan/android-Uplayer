@@ -1,4 +1,4 @@
-package com.bogdanmurzin.uplayer.model
+package com.bogdanmurzin.uplayer.model.player
 
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 

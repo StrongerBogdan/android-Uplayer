@@ -15,7 +15,7 @@ import com.bogdanmurzin.uplayer.R
 import com.bogdanmurzin.uplayer.common.Constants
 import com.bogdanmurzin.uplayer.databinding.ActivityMainBinding
 import com.bogdanmurzin.uplayer.databinding.FragmentNowPlayingBinding
-import com.bogdanmurzin.uplayer.model.PlayerType
+import com.bogdanmurzin.uplayer.model.player.PlayerType
 import com.bogdanmurzin.uplayer.model.playlist.PlayList
 import com.bogdanmurzin.uplayer.service.YoutubePlayerService
 import com.bumptech.glide.Glide
