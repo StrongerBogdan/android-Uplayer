@@ -24,4 +24,7 @@ object Constants {
     const val NOTIFICATION_CHANNEL_ID = "com.bogdanmurzin.uplayer"
     const val NOTIFICATION_CHANNEL_NAME = "Music service"
     const val FLAGS = 0
+
+    // Permissions
+    const val PERMISSION_REQUEST_CODE = 300
 }

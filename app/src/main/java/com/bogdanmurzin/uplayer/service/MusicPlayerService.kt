@@ -122,13 +122,13 @@ class MusicPlayerService : Service(), CoroutineScope {
             .setSmallIcon(R.drawable.no_item_icon)
             .setContentTitle(currentVideoItem.title)
             .setContentText(currentVideoItem.author)
-            .setLargeIcon(getBitmap(currentVideoItem.imageUrl))
+            .setLargeIcon(getBitmap(currentVideoItem.coverArtUri))
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle())
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .addAction(
                 NotificationCompat.Action(
                     playPauseDrawer,
-                    getString(R.string.play_pause),
+                    getString(R.string.play),
                     MediaButtonReceiver.buildMediaButtonPendingIntent(
                         this,
                         PlaybackStateCompat.ACTION_PLAY_PAUSE

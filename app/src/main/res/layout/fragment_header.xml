@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/gray">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_bar_input_layout"
@@ -15,10 +15,10 @@
         android:layout_marginStart="@dimen/searchbar_margin_start"
         android:layout_marginTop="@dimen/searchbar_margin_top"
         android:layout_marginEnd="@dimen/searchbar_margin_end"
+        android:layout_marginBottom="@dimen/searchbar_margin_bottom"
         app:endIconDrawable="@drawable/search_icon"
         app:endIconMode="custom"
-        app:endIconTint="@color/ghost_white"
-        android:layout_marginBottom="@dimen/searchbar_margin_bottom">
+        app:endIconTint="@color/ghost_white">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_bar_edit_text"
