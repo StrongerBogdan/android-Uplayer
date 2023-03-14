@@ -115,17 +115,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initYouTubePlayerView() {
-        val customPlayerUi: FragmentNowPlayingBinding = binding.nowPlaying
-
         val listener = object : AbstractYouTubePlayerListener() {
 
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 this@MainActivity.youTubePlayer = youTubePlayer
-                // Create and add custom listener
-                // TODO REMOVE CustomYouTubePlayerListener
-//                val customPlayerUiController =
-//                    CustomYouTubePlayerListener(customPlayerUi, youTubePlayer)
-//                youTubePlayer.addListener(customPlayerUiController)
                 // Create and add seek listener
                 val seekBar = binding.nowPlaying.seekbar
                 seekBar.youtubePlayerSeekBarListener = object : YouTubePlayerSeekBarListener {
